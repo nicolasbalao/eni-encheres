@@ -6,5 +6,36 @@
     <title th:text="#{header.home}"></title>
 </head>
 <main>
+    <div class="p-4 flex flex-col gap-4">
+        <label class="text-1xl font-semibold" for="searchBar">Filtres</label>
+        <div class="flex flex-row gap-6">
+            <div class="flex flex-col w-fit gap-4">
+                <div class="flex flex-col gap-4 w-[350px]">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
+                            </svg>
+                        </div>
+                        <input name="searchBar" type="text" id="searchBar" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 " placeholder="Le nom de l'article contient">
+                    </div>
+                </div>
+                <div class="flex flex-row justify-between items-center">
+                        <label class="text-1xl font-semibold" for="category">Catégorie</label>
+                        <select name="category" id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5">
+                            <option selected>Choose a country</option>
+                            <option value="US">United States</option>
+                            <option value="CA">Canada</option>
+                            <option value="FR">France</option>
+                            <option value="DE">Germany</option>
+                        </select>
+                    </div>
+            </div>
+            <div class="flex flex-col gap-4 justify-center">
+                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2">Rechercher</button>
+                <button type="button" class="py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Anuler</button>
+            </div>
+        </div>
+    </div>
 </main>
 </html>
