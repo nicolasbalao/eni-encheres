@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 @SpringBootApplication
 @RestController
 public class EniEncheresApplication {
@@ -14,7 +16,12 @@ public class EniEncheresApplication {
     }
 
     @GetMapping("/")
-    public String helloWorld() {
+    public String helloWorld(Principal principal) {
+
+        if (principal != null) {
+            return "Bienvenue " + principal.getName();
+        }
         return "Hello World";
-    };
+    }
+
 }
