@@ -53,8 +53,13 @@ build/
 *.properties
 *.yml
 *.yaml
-!src/main/resources/application.properties
-!src/main/resources/application.yml
+# Ignorer tous les fichiers de configuration
+src/main/resources/*.properties
+src/main/resources/*.yml
+src/main/resources/*.yaml
+
+# Sauf si tu veux garder un modèle (ex: `application.example.properties`)
+!src/main/resources/application.example.properties
 
 # Database H2 (si utilisée)
 *.mv.db
