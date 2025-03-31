@@ -3,7 +3,7 @@
       th:replace="~{layouts/layout :: layout(titrePage=~{::title}, contenuPage=~{::main}, ressourcesSupp=~{})}"
       lang="fr">
 <head>
-    <title data-th-text="test"></title>
+    <title th:text="#{header.home}"></title>
 </head>
 <main>
 </main>
