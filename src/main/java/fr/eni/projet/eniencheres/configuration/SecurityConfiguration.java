@@ -2,7 +2,6 @@ package fr.eni.projet.eniencheres.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
@@ -34,16 +33,16 @@ public class SecurityConfiguration {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authorizeRequests -> {
-            authorizeRequests
-                    .requestMatchers("/").permitAll()
-                    .requestMatchers("/static/**").permitAll()
-                    .requestMatchers("/css/**").permitAll()
-                    .requestMatchers("/images/**").permitAll()
-                    .requestMatchers("/uploads/**").permitAll();
-        });
+        http.authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                .requestMatchers("/").permitAll()
+                .requestMatchers("/static/**").permitAll()
+                .requestMatchers("/css/**").permitAll()
+                .requestMatchers("/images/**").permitAll()
+                .requestMatchers("/uploads/**").permitAll());
 
-        http.formLogin(Customizer.withDefaults());
+        http.formLogin(form -> form.loginPage("/login").permitAll());
+
+
         return http.build();
     }
 }
