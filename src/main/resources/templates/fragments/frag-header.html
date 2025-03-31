@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" data-th-fragment="frag-header">
+<head>
+</head>
+<body>
+<header>
+    <div class="flex flex-row p-6 h-16">
+        <div class="flex flex-row gap-2 flex-grow-1">
+            <h1>Eni-Encheres</h1>
+        </div>
+        <div class="flex flex-row gap-6">
+            <div class="flex flex-row gap-2">
+                <a href="/?language=fr"><img class="h-[25px]" alt="Français" src="/images/French.webp"></a>
+                <a href="/?language=en"><img class="h-[25px]" alt="English" src="/images/English.webp"></a>
+            </div>
+            <a class="text-blue-500 underline" href="/">Accueil</a>
+            <a class="text-blue-500 underline" href="/login" th:text="#{loginRegister}"></a>
+        </div>
+    </div>
+</header>
+</body>
+</html>
+
