@@ -9,10 +9,9 @@ public class EnchereBo {
     private UtilisateurBo acquereur;
     private ArticleAVendreBo articleAVendre;
 
-    public EnchereBo(LocalDate date, Number montant, UtilisateurBo acquereur, ArticleAVendreBo articleAVendre) {
+    public EnchereBo(LocalDate date, Number montant, ArticleAVendreBo articleAVendre) {
         this.date = date;
         this.montant = montant;
-        this.acquereur = acquereur;
         this.articleAVendre = articleAVendre;
     }
 
