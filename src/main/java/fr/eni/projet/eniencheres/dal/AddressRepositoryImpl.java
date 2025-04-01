@@ -1,6 +1,6 @@
 package fr.eni.projet.eniencheres.dal;
 
-import fr.eni.projet.eniencheres.bo.Address;
+import fr.eni.projet.eniencheres.bo.Adresse;
 import fr.eni.projet.eniencheres.dal.interfaces.AddressRepository;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -18,20 +18,20 @@ public class AddressRepositoryImpl implements AddressRepository {
     }
 
     @Override
-    public void save(Address address) {
+    public void save(Adresse address) {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         String sql = "INSERT INTO adresses(rue, code_postal, ville) VALUES (:rue, :code_postal, :ville)";
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("rue", address.getStreet());
-        params.addValue("code_postal", address.getZipcode());
-        params.addValue("ville", address.getCity());
+        params.addValue("rue", address.getRue());
+        params.addValue("code_postal", address.getCodePostal());
+        params.addValue("ville", address.getVille());
 
         jdbc.update(sql, params, keyHolder);
 
         if (keyHolder.getKey() != null) {
-            address.setId(keyHolder.getKey().intValue());
+            address.setId(keyHolder.getKey().longValue());
         }
     }
 }

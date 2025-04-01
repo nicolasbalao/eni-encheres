@@ -44,7 +44,7 @@ public class SecurityConfiguration {
                 .anyRequest().authenticated()
         );
 
-        http.formLogin(form -> form.loginPage("/login").permitAll());
+        http.formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/").permitAll());
 
         return http.build();
     }

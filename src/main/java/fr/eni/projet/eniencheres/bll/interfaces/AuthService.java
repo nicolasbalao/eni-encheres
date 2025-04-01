@@ -1,8 +1,8 @@
 package fr.eni.projet.eniencheres.bll.interfaces;
 
-import fr.eni.projet.eniencheres.bo.User;
+import fr.eni.projet.eniencheres.bo.Utilisateur;
 
 public interface AuthService {
 
-    public void register(User user);
+    public void register(Utilisateur user);
 }

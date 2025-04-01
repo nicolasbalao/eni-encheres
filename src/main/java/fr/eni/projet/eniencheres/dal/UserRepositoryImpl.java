@@ -1,6 +1,6 @@
 package fr.eni.projet.eniencheres.dal;
 
-import fr.eni.projet.eniencheres.bo.User;
+import fr.eni.projet.eniencheres.bo.Utilisateur;
 import fr.eni.projet.eniencheres.dal.interfaces.UserRepository;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -17,17 +17,17 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void save(User user) {
+    public void save(Utilisateur user) {
 
         String sql = "INSERT INTO utilisateurs(pseudo, nom, prenom, email, telephone, mot_de_passe, credit, no_adresse) VALUES(:pseudo, :nom, :prenom, :email, :telephone, :mot_de_passe, 10, :no_adresse)";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("pseudo", user.getPseudo());
-        params.addValue("nom", user.getLastName());
-        params.addValue("prenom", user.getFirstName());
+        params.addValue("nom", user.getNom());
+        params.addValue("prenom", user.getPrenom());
         params.addValue("email", user.getEmail());
-        params.addValue("telephone", user.getPhoneNumber());
-        params.addValue("mot_de_passe", user.getPassword());
-        params.addValue("no_adresse", user.getAddress().getId());
+        params.addValue("telephone", user.getTelephone());
+        params.addValue("mot_de_passe", user.getMotDePasse());
+        params.addValue("no_adresse", user.getAdresse().getId());
         jdbc.update(sql, params);
     }
 

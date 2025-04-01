@@ -1,7 +1,7 @@
 package fr.eni.projet.eniencheres.bll;
 
 import fr.eni.projet.eniencheres.bll.interfaces.AuthService;
-import fr.eni.projet.eniencheres.bo.User;
+import fr.eni.projet.eniencheres.bo.Utilisateur;
 import fr.eni.projet.eniencheres.dal.interfaces.AddressRepository;
 import fr.eni.projet.eniencheres.dal.interfaces.UserRepository;
 import fr.eni.projet.eniencheres.exception.BusinessException;
@@ -26,7 +26,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public void register(User user) throws BusinessException {
+    public void register(Utilisateur user) throws BusinessException {
         // 1. Check if the pseudo already exist
         if (userRepository.existByPseudo(user.getPseudo())) {
             throw new BusinessException("register.form.error.pseudoAlreadyExist");
@@ -36,15 +36,15 @@ public class AuthServiceImpl implements AuthService {
             throw new BusinessException("register.form.error.emailAlreadyExist");
         }
 
-        if (!PasswordValidator.isValid(user.getPassword())) {
+        if (!PasswordValidator.isValid(user.getMotDePasse())) {
             throw new BusinessException("register.form.error.passwordNotValid");
         }
         // Create password with encoder
-        String hashedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(hashedPassword);
+        String hashedPassword = passwordEncoder.encode(user.getMotDePasse());
+        user.setMotDePasse(hashedPassword);
 
         // Save address
-        addressRepository.save(user.getAddress());
+        addressRepository.save(user.getAdresse());
 
         // Save user
         userRepository.save(user);

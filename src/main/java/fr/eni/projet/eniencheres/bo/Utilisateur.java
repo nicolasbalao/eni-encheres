@@ -1,13 +1,30 @@
 package fr.eni.projet.eniencheres.bo;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Utilisateur {
+    @NotBlank
+    @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "Le pseudo ne doit contenir que des caractères alphanumériques et des underscores.")
+    @Size(min = 5, max = 30)
     private String pseudo;
+
+    @NotBlank
+    @Size(min = 1, max = 40)
     private String nom;
+
+    @NotBlank
+    @Size(min = 1, max = 50)
     private String prenom;
+
+    @NotBlank
+    @Email
     private String email;
     private String telephone;
     private String motDePasse;
@@ -15,6 +32,10 @@ public class Utilisateur {
     private Boolean admin;
     private Adresse adresse;
     private List<ArticleAVendre> articleAVendres = new ArrayList<>();
+
+
+    public Utilisateur() {
+    }
 
     public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String motDePasse, Number credit, Boolean admin) {
         this.pseudo = pseudo;
@@ -27,16 +48,6 @@ public class Utilisateur {
         this.admin = admin;
     }
 
-    public Utilisateur() {
-        this.pseudo = "";
-        this.nom = "";
-        this.prenom = "";
-        this.email = "";
-        this.telephone = "";
-        this.motDePasse = "";
-        this.credit = 0;
-        this.admin = false;
-    }
 
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
@@ -117,18 +128,18 @@ public class Utilisateur {
     public List<ArticleAVendre> getArticleAVendres() {
         return articleAVendres;
     }
-
-
+    
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Utilisateur that = (Utilisateur) o;
-        return Objects.equals(getPseudo(), that.getPseudo()) && Objects.equals(getNom(), that.getNom()) && Objects.equals(getPrenom(), that.getPrenom()) && Objects.equals(getEmail(), that.getEmail()) && Objects.equals(getTelephone(), that.getTelephone()) && Objects.equals(getMotDePasse(), that.getMotDePasse()) && Objects.equals(getCredit(), that.getCredit()) && Objects.equals(getAdmin(), that.getAdmin());
+        return Objects.equals(pseudo, that.pseudo) && Objects.equals(email, that.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPseudo(), getNom(), getPrenom(), getEmail(), getTelephone(), getMotDePasse(), getCredit(), getAdmin());
+        return Objects.hash(pseudo, email);
     }
 
     @Override
