@@ -38,11 +38,14 @@ public class SecurityConfiguration {
                 .requestMatchers("/static/**").permitAll()
                 .requestMatchers("/css/**").permitAll()
                 .requestMatchers("/images/**").permitAll()
-                .requestMatchers("/uploads/**").permitAll());
+                .requestMatchers("/uploads/**").permitAll()
+                .requestMatchers("/register").permitAll()
+        );
 
         http.formLogin(form -> form.loginPage("/login").permitAll());
 
-
         return http.build();
     }
+
 }
+

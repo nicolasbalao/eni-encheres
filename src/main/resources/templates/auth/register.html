@@ -1,0 +1,58 @@
+<html lang="en"
+      data-th-replace="~{layouts/layout :: layout(titrePage=~{:: title}, contenuPage=~{:: main}, ressourcesSupp=~{})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register</title>
+</head>
+<body>
+<main>
+    <h1>Nouveau Profile</h1>
+    <form data-th-action="@{/register}" method="post" data-th-object="${user}">
+        <p class="cards" data-th-each="err : ${#fields.errors('global')}" data-th-text="#{${err}}"/>
+        <div>
+            <label for="pseudo">Pseudo (*): </label>
+            <input type="text" id="pseudo" data-th-field="*{pseudo}" required>
+        </div>
+        <div>
+            <label for="lastname">Nom (*): </label>
+            <input type="text" id="lastname" data-th-field="*{lastName}" required>
+        </div>
+        <div>
+            <label for="firstname">Prénom (*): </label>
+            <input type="text" id="firstname" data-th-field="*{firstName}" required>
+        </div>
+        <div>
+            <label for="email">Email (*): </label>
+            <input type="email" id="email" data-th-field="*{email}" required>
+        </div>
+        <div>
+            <label for="phone">Téléphone: </label>
+            <input type="text" id="phone" data-th-field="*{phoneNumber}">
+        </div>
+        <div>
+            <label for="street">Addresse (*): </label>
+            <input type="text" id="street" data-th-field="*{address.street}" required>
+            <input type="text" id="zipcode" data-th-field="*{address.zipcode}" required placeholder="Code Postal">
+            <input type="text" id="city" data-th-field="*{address.city}" required placeholder="Ville">
+        </div>
+        <div>
+            <label for="password">Mot de passe (*): </label>
+            <input type="password" id="password" data-th-field="*{password}">
+        </div>
+        <div>
+            <label for="password_conf">Mot de passe (*): </label>
+            <input type="password" id="password_conf" name="password_conf">
+        </div>
+
+        <div>
+            <button type="submit">Créer</button>
+            <button>
+                <a href="/">Annuler</a>
+            </button>
+        </div>
+    </form>
+
+</main>
+</body>
+</html>
