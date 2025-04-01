@@ -40,8 +40,17 @@ public class SecurityConfiguration {
                 .requestMatchers("/js/**").permitAll()
                 .requestMatchers("/images/**").permitAll()
                 .requestMatchers("/uploads/**").permitAll()
+                .requestMatchers("/logout").permitAll()
                 .requestMatchers("/register").permitAll()
                 .anyRequest().authenticated()
+        );
+
+        http.logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
         );
 
         http.formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/").permitAll());
