@@ -3,7 +3,7 @@ package fr.eni.projet.eniencheres.bo;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class ArticleAVendreBo {
+public class ArticleAVendre {
     private Long id;
     private String nom;
     private String description;
@@ -12,12 +12,12 @@ public class ArticleAVendreBo {
     private Number statut;
     private Number prixInitial;
     private Number prixFinal;
-    private UtilisateurBo vendeur;
-    private AdresseBo retrait;
-    private CategorieBo categorie;
+    private Utilisateur vendeur;
+    private Adresse retrait;
+    private Categorie categorie;
 
 
-    public ArticleAVendreBo(Long id, String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, Number statut, Number prixInitial, Number prixFinal) {
+    public ArticleAVendre(Long id, String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, Number statut, Number prixInitial, Number prixFinal) {
         this.id = id;
         this.nom = nom;
         this.description = description;
@@ -28,7 +28,7 @@ public class ArticleAVendreBo {
         this.prixFinal = prixFinal;
     }
 
-    public ArticleAVendreBo() {
+    public ArticleAVendre() {
     }
 
     public Long getId() {
@@ -95,34 +95,34 @@ public class ArticleAVendreBo {
         this.prixFinal = prixFinal;
     }
 
-    public UtilisateurBo getVendeur() {
+    public Utilisateur getVendeur() {
         return vendeur;
     }
 
-    public void setVendeur(UtilisateurBo vendeur) {
+    public void setVendeur(Utilisateur vendeur) {
         this.vendeur = vendeur;
     }
 
-    public AdresseBo getRetrait() {
+    public Adresse getRetrait() {
         return retrait;
     }
 
-    public void setRetrait(AdresseBo retrait) {
+    public void setRetrait(Adresse retrait) {
         this.retrait = retrait;
     }
 
-    public CategorieBo getCategorie() {
+    public Categorie getCategorie() {
         return categorie;
     }
 
-    public void setCategorie(CategorieBo categorie) {
+    public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        ArticleAVendreBo that = (ArticleAVendreBo) o;
+        ArticleAVendre that = (ArticleAVendre) o;
         return Objects.equals(getId(), that.getId()) && Objects.equals(getNom(), that.getNom()) && Objects.equals(getDescription(), that.getDescription()) && Objects.equals(getDateDebutEncheres(), that.getDateDebutEncheres()) && Objects.equals(getDateFinEncheres(), that.getDateFinEncheres()) && Objects.equals(getStatut(), that.getStatut()) && Objects.equals(getPrixInitial(), that.getPrixInitial()) && Objects.equals(getPrixFinal(), that.getPrixFinal()) && Objects.equals(getVendeur(), that.getVendeur()) && Objects.equals(getRetrait(), that.getRetrait()) && Objects.equals(getCategorie(), that.getCategorie());
     }
 

@@ -3,19 +3,19 @@ package fr.eni.projet.eniencheres.bo;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class EnchereBo {
+public class Enchere {
     private LocalDate date;
     private Number montant;
-    private UtilisateurBo acquereur;
-    private ArticleAVendreBo articleAVendre;
+    private Utilisateur acquereur;
+    private ArticleAVendre articleAVendre;
 
-    public EnchereBo(LocalDate date, Number montant, ArticleAVendreBo articleAVendre) {
+    public Enchere(LocalDate date, Number montant, ArticleAVendre articleAVendre) {
         this.date = date;
         this.montant = montant;
         this.articleAVendre = articleAVendre;
     }
 
-    public EnchereBo() {
+    public Enchere() {
     }
 
     public LocalDate getDate() {
@@ -34,26 +34,26 @@ public class EnchereBo {
         this.montant = montant;
     }
 
-    public UtilisateurBo getAcquereur() {
+    public Utilisateur getAcquereur() {
         return acquereur;
     }
 
-    public void setAcquereur(UtilisateurBo acquereur) {
+    public void setAcquereur(Utilisateur acquereur) {
         this.acquereur = acquereur;
     }
 
-    public ArticleAVendreBo getArticleAVendre() {
+    public ArticleAVendre getArticleAVendre() {
         return articleAVendre;
     }
 
-    public void setArticleAVendre(ArticleAVendreBo articleAVendre) {
+    public void setArticleAVendre(ArticleAVendre articleAVendre) {
         this.articleAVendre = articleAVendre;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        EnchereBo enchereBo = (EnchereBo) o;
+        Enchere enchereBo = (Enchere) o;
         return Objects.equals(getDate(), enchereBo.getDate()) && Objects.equals(getMontant(), enchereBo.getMontant()) && Objects.equals(getAcquereur(), enchereBo.getAcquereur()) && Objects.equals(getArticleAVendre(), enchereBo.getArticleAVendre());
     }
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class UtilisateurBo {
+public class Utilisateur {
     private String pseudo;
     private String nom;
     private String prenom;
@@ -13,10 +13,10 @@ public class UtilisateurBo {
     private String motDePasse;
     private Number credit;
     private Boolean admin;
-    private AdresseBo adresse;
-    private List<ArticleAVendreBo> articleAVendres = new ArrayList<>();
+    private Adresse adresse;
+    private List<ArticleAVendre> articleAVendres = new ArrayList<>();
 
-    public UtilisateurBo(String pseudo, String nom, String prenom, String email, String telephone, String motDePasse, Number credit, Boolean admin) {
+    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String motDePasse, Number credit, Boolean admin) {
         this.pseudo = pseudo;
         this.nom = nom;
         this.prenom = prenom;
@@ -27,7 +27,7 @@ public class UtilisateurBo {
         this.admin = admin;
     }
 
-    public UtilisateurBo() {
+    public Utilisateur() {
         this.pseudo = "";
         this.nom = "";
         this.prenom = "";
@@ -70,11 +70,11 @@ public class UtilisateurBo {
         this.admin = admin;
     }
 
-    public void setAdresse(AdresseBo adresse) {
+    public void setAdresse(Adresse adresse) {
         this.adresse = adresse;
     }
 
-    public void setArticleAVendres(List<ArticleAVendreBo> articleAVendres) {
+    public void setArticleAVendres(List<ArticleAVendre> articleAVendres) {
         this.articleAVendres = articleAVendres;
     }
 
@@ -110,11 +110,11 @@ public class UtilisateurBo {
         return admin;
     }
 
-    public AdresseBo getAdresse() {
+    public Adresse getAdresse() {
         return adresse;
     }
 
-    public List<ArticleAVendreBo> getArticleAVendres() {
+    public List<ArticleAVendre> getArticleAVendres() {
         return articleAVendres;
     }
 
@@ -122,7 +122,7 @@ public class UtilisateurBo {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        UtilisateurBo that = (UtilisateurBo) o;
+        Utilisateur that = (Utilisateur) o;
         return Objects.equals(getPseudo(), that.getPseudo()) && Objects.equals(getNom(), that.getNom()) && Objects.equals(getPrenom(), that.getPrenom()) && Objects.equals(getEmail(), that.getEmail()) && Objects.equals(getTelephone(), that.getTelephone()) && Objects.equals(getMotDePasse(), that.getMotDePasse()) && Objects.equals(getCredit(), that.getCredit()) && Objects.equals(getAdmin(), that.getAdmin());
     }
 
