@@ -14,14 +14,4 @@ public class EniEncheresApplication {
     public static void main(String[] args) {
         SpringApplication.run(EniEncheresApplication.class, args);
     }
-
-    @GetMapping("/")
-    public String helloWorld(Principal principal) {
-
-        if (principal != null) {
-            return "Bienvenue " + principal.getName();
-        }
-        return "Hello World";
-    }
-
 }
