@@ -2,20 +2,20 @@ package fr.eni.projet.eniencheres.bo;
 
 import java.util.Objects;
 
-public class AdresseBo {
+public class Adresse {
     private Long id;
     private String rue;
     private String codePostal;
     private String ville;
 
-    public AdresseBo(Long id, String rue, String codePostal, String ville) {
+    public Adresse(Long id, String rue, String codePostal, String ville) {
         this.id = id;
         this.rue = rue;
         this.codePostal = codePostal;
         this.ville = ville;
     }
 
-    public AdresseBo() {
+    public Adresse() {
         this.id = 0L;
         this.rue = "";
         this.codePostal = "";
@@ -57,7 +57,7 @@ public class AdresseBo {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        AdresseBo adresseBo = (AdresseBo) o;
+        Adresse adresseBo = (Adresse) o;
         return Objects.equals(getId(), adresseBo.getId()) && Objects.equals(getRue(), adresseBo.getRue()) && Objects.equals(getCodePostal(), adresseBo.getCodePostal()) && Objects.equals(getVille(), adresseBo.getVille());
     }
 

@@ -2,17 +2,17 @@ package fr.eni.projet.eniencheres.bo;
 
 import java.util.Objects;
 
-public class CategorieBo {
+public class Categorie {
     private Long id;
     private String libelle;
 
 
-    public CategorieBo(Long id, String libelle) {
+    public Categorie(Long id, String libelle) {
         this.id = id;
         this.libelle = libelle;
     }
 
-    public CategorieBo() {
+    public Categorie() {
     }
 
     public Long getId() {
@@ -34,7 +34,7 @@ public class CategorieBo {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        CategorieBo that = (CategorieBo) o;
+        Categorie that = (Categorie) o;
         return Objects.equals(getId(), that.getId()) && Objects.equals(getLibelle(), that.getLibelle());
     }
 
