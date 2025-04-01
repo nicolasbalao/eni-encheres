@@ -55,20 +55,20 @@
                         </div>
                         <div class="flex flex-col">
                             <div class="flex mb-3">
-                                <h3 class="font-semibold" th:text="${enchere.articleAVendre.getNom()}"></h3>
+                                <h3 class="font-semibold" th:text="${enchere.articleAVendre.nom}"></h3>
                             </div>
                             <div class="flex flex-col gap-1 px-2">
                                 <div class="flex flex-row gap-1">
                                     <p class="text-sm font-medium">Prix:</p>
-                                    <p class="text-sm" th:text="${enchere.articleAVendre.getPrixFinal()} + ' point(s)'"></p>
+                                    <p class="text-sm" th:text="${enchere.articleAVendre.prixFinal} + ' point(s)'"></p>
                                 </div>
                                 <div class="flex flex-row gap-1">
                                     <p class="text-sm font-medium">Fin de l'enchère : </p>
-                                    <p class="text-sm" th:text="${enchere.articleAVendre.getDateFinEncheres()}"></p>
+                                    <p class="text-sm" th:text="${enchere.articleAVendre.dateFinEncheres}"></p>
                                 </div>
                                 <div class="flex flex-row gap-1">
                                     <p class="text-sm font-medium">Vendeur : </p>
-                                    <p class="text-sm" th:text="${enchere.articleAVendre.getVendeur().getPseudo()}"></p>
+                                    <p class="text-sm" th:text="${enchere.articleAVendre.vendeur.pseudo}"></p>
                                 </div>
                             </div>
                         </div>
