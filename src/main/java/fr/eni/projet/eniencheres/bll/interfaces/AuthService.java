@@ -4,5 +4,5 @@ import fr.eni.projet.eniencheres.bo.User;
 
 public interface AuthService {
 
-    public User register(User user);
+    public void register(User user);
 }

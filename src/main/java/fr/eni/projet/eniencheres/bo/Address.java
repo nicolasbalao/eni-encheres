@@ -1,14 +1,18 @@
 package fr.eni.projet.eniencheres.bo;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class Address {
     private long id;
     @NotBlank
+    @Size(min = 1, max = 100)
     private String street;
     @NotBlank
+    @Size(min = 3, max = 50)
     private String city;
     @NotBlank
+    @Size(min = 2, max = 10)
     private String zipcode;
 
     public Address() {

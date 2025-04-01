@@ -9,29 +9,28 @@ import jakarta.validation.constraints.Size;
 public class User {
     @NotBlank
     @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "Le pseudo ne doit contenir que des caractères alphanumériques et des underscores.")
+    @Size(min = 5, max = 30)
     private String pseudo;
 
     @NotBlank
+    @Size(min = 1, max = 40)
     private String lastName;
 
     @NotBlank
+    @Size(min = 1, max = 50)
     private String firstName;
 
     @NotBlank
     @Email
     private String email;
 
-    @NotBlank
     private String phoneNumber;
 
-    @Size(min = 8, max = 20)
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$",
-            message = "Le mot de passe doit contenir entre 8 et 20 caractères, avec au moins une majuscule, un chiffre et un caractère spécial.")
     private String password;
 
     private int credits;
     private boolean admin;
-    
+
     private Address address;
 
     public User() {

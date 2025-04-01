@@ -5,6 +5,7 @@ import fr.eni.projet.eniencheres.bo.User;
 import fr.eni.projet.eniencheres.dal.interfaces.AddressRepository;
 import fr.eni.projet.eniencheres.dal.interfaces.UserRepository;
 import fr.eni.projet.eniencheres.exception.BusinessException;
+import fr.eni.projet.eniencheres.validation.PasswordValidator;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,25 +26,28 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public User register(User user) throws BusinessException {
+    public void register(User user) throws BusinessException {
         // 1. Check if the pseudo already exist
         if (userRepository.existByPseudo(user.getPseudo())) {
-            throw new BusinessException("Pseudo already exists");
+            throw new BusinessException("register.form.error.pseudoAlreadyExist");
         }
         // 2. Check if the email already exist
         if (userRepository.existByEmail(user.getEmail())) {
-            throw new BusinessException("Email already exists");
+            throw new BusinessException("register.form.error.emailAlreadyExist");
         }
-        // 3. Create password with encoder
+
+        if (!PasswordValidator.isValid(user.getPassword())) {
+            throw new BusinessException("register.form.error.passwordNotValid");
+        }
+        // Create password with encoder
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
 
-        // 4. Save address
+        // Save address
         addressRepository.save(user.getAddress());
 
-        // 5. Save user
+        // Save user
         userRepository.save(user);
 
-        return null;
     }
 }

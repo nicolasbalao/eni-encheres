@@ -1,8 +1,6 @@
 <!-- Affichage d'un message global s'il y a des erreurs -->
 <div xmlns:th="http://www.thymeleaf.org" data-th-fragment="frag-errors"
-     class="cards" th:if="${#fields.hasErrors('*')}">
-    <!-- Todo:   translation-->
-    <h2>Attention vérifier vos champs</h2>
+     class="p-4 my-2 bg-red-200 text-red-500 rounded-sm" th:if="${#fields.hasErrors('*')}">
     <!-- Affichage des Exceptions Métiers -->
     <p data-th-each="err : ${#fields.errors('global')}" data-th-text="#{${err}}"/>
 </div>

@@ -2,7 +2,6 @@ package fr.eni.projet.eniencheres.controller;
 
 import fr.eni.projet.eniencheres.bll.interfaces.AuthService;
 import fr.eni.projet.eniencheres.bo.User;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,16 +33,14 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, Model model, HttpServletRequest request) {
+    public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("user", user);
             return "auth/register";
         }
 
         try {
-            String plainPassword = user.getPassword();
             authService.register(user);
-            request.login(user.getPseudo(), plainPassword);
         } catch (Exception e) {
             ObjectError error = new ObjectError("globalError", e.getMessage());
             bindingResult.addError(error);
