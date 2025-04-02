@@ -1,4 +1,4 @@
-package fr.eni.projet.eniencheres.dal.ArticlesAVendre;
+package fr.eni.projet.eniencheres.dal.Encheres;
 
 import fr.eni.projet.eniencheres.bo.Adresse;
 import fr.eni.projet.eniencheres.bo.ArticleAVendre;
@@ -6,12 +6,21 @@ import fr.eni.projet.eniencheres.bo.Enchere;
 import fr.eni.projet.eniencheres.bo.Utilisateur;
 import org.springframework.jdbc.core.RowMapper;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ArticlesAVendreRowMapper implements RowMapper<ArticleAVendre> {
+public class EncheresRowMapper implements RowMapper<Enchere> {
     @Override
-    public ArticleAVendre mapRow(ResultSet rs, int rowNum) throws SQLException {
+    public Enchere mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Enchere e = new Enchere();
+
+        Double montant_enchere = rs.getObject("montant_enchere", Double.class);
+        e.setMontant(montant_enchere != null ? montant_enchere : rs.getDouble("prix_initial"));
+
+        Date sqlDate = rs.getDate("date_enchere");
+        e.setDate(sqlDate != null ? sqlDate.toLocalDate() : null);
+
         Utilisateur u = new Utilisateur();
 
         u.setPseudo(rs.getString("pseudo"));
@@ -46,6 +55,8 @@ public class ArticlesAVendreRowMapper implements RowMapper<ArticleAVendre> {
         aav.setRetrait(new Adresse());
         aav.setVendeur(u);
 
-        return aav;
+        e.setArticleAVendre(aav);
+
+        return e;
     }
 }
