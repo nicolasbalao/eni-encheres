@@ -1,12 +1,24 @@
 package fr.eni.projet.eniencheres.bo;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.util.Objects;
 
 public class Adresse {
     private Long id;
+    @NotBlank
+    @Size(min = 1, max = 100)
     private String rue;
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String codePostal;
+    @NotBlank
+    @Size(min = 2, max = 10)
     private String ville;
+
+    public Adresse() {
+    }
 
     public Adresse(Long id, String rue, String codePostal, String ville) {
         this.id = id;
@@ -15,12 +27,6 @@ public class Adresse {
         this.ville = ville;
     }
 
-    public Adresse() {
-        this.id = 0L;
-        this.rue = "";
-        this.codePostal = "";
-        this.ville = "";
-    }
 
     public Long getId() {
         return id;
