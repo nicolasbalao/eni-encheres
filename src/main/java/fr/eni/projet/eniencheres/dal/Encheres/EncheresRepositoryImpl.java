@@ -33,6 +33,10 @@ public class EncheresRepositoryImpl implements EncheresRepository {
            AD.ville,
            C.no_categorie as id_categorie,
            C.libelle as categorie,
+           AD2.code_postal as retrait_code_postal,
+            AD2.rue as retrait_rue,
+            AD2.ville as retrait_ville,
+            AD2.no_adresse as retrait_id,
            MAX(E.montant_enchere) as montant_enchere,
            E.date_enchere
            FROM ARTICLES_A_VENDRE A
@@ -40,6 +44,7 @@ public class EncheresRepositoryImpl implements EncheresRepository {
            INNER JOIN UTILISATEURS U ON A.id_utilisateur = U.pseudo
            INNER JOIN ADRESSES AD ON U.no_adresse = AD.no_adresse
            INNER JOIN CATEGORIES C ON A.no_categorie = C.no_categorie
+           INNER JOIN ADRESSES AD2 on A.no_adresse_retrait = AD2.no_adresse
            
            WHERE A.prix_vente IS NULL AND A.statut_enchere = 1
            GROUP BY
@@ -63,6 +68,10 @@ public class EncheresRepositoryImpl implements EncheresRepository {
                AD.ville,
                C.no_categorie,
                C.libelle,
+               AD2.no_adresse,
+               AD2.code_postal,
+               	AD2.rue,
+               	AD2.ville,
                E.date_enchere;
     """;
 

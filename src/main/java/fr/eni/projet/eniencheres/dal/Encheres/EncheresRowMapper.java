@@ -43,6 +43,12 @@ public class EncheresRowMapper implements RowMapper<Enchere> {
         c.setId(rs.getLong("id_categorie"));
         c.setLibelle(rs.getString("categorie").replaceAll(" ", ""));
 
+        Adresse retrait = new Adresse();
+        retrait.setId(rs.getLong("retrait_id"));
+        retrait.setVille(rs.getString("retrait_ville"));
+        retrait.setRue(rs.getString("retrait_rue"));
+        retrait.setCodePostal(rs.getString("retrait_code_postal"));
+
         ArticleAVendre aav = new ArticleAVendre();
         aav.setNom(rs.getString("nom_article"));
         aav.setDescription(rs.getString("description"));
@@ -55,6 +61,7 @@ public class EncheresRowMapper implements RowMapper<Enchere> {
         aav.setRetrait(new Adresse());
         aav.setVendeur(u);
         aav.setCategorie(c);
+        aav.setRetrait(retrait);
 
         e.setArticleAVendre(aav);
 
