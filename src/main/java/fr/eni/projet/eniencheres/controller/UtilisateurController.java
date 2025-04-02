@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 // TODO: See if we split this controller into 2 -> 1 for my profile & 1 for users profile
 @Controller
@@ -32,6 +33,17 @@ public class UtilisateurController {
             return "redirect:/error";
         }
 
+        return "user/profile";
+    }
+
+    @GetMapping("/users/{pseudo}/profile")
+    public String userProfilePage(@PathVariable("pseudo") String pseudo, Model model) {
+        try {
+            Utilisateur user = utilisateurService.displayProfile(pseudo);
+            model.addAttribute("profile", user);
+        } catch (BusinessException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+        }
         return "user/profile";
     }
 

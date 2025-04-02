@@ -18,7 +18,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     public Utilisateur displayProfile(String pseudo) throws BusinessException {
         Utilisateur utilisateur = utilisateurRepository.profileByPseudo(pseudo);
         if (utilisateur == null) {
-            throw new BusinessException("user.notFound");
+            throw new BusinessException("error.user.notFound");
         }
         return utilisateur;
     }
