@@ -1,9 +1,8 @@
-package fr.eni.projet.eniencheres.bll;
+package fr.eni.projet.eniencheres.bll.auth;
 
-import fr.eni.projet.eniencheres.bll.interfaces.AuthService;
 import fr.eni.projet.eniencheres.bo.Utilisateur;
-import fr.eni.projet.eniencheres.dal.interfaces.AddressRepository;
-import fr.eni.projet.eniencheres.dal.interfaces.UserRepository;
+import fr.eni.projet.eniencheres.dal.adresse.AdresseRepository;
+import fr.eni.projet.eniencheres.dal.utilisateur.UtilisateurRepository;
 import fr.eni.projet.eniencheres.exception.BusinessException;
 import fr.eni.projet.eniencheres.validation.PasswordValidator;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -13,13 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AuthServiceImpl implements AuthService {
-    private final UserRepository userRepository;
-    private final AddressRepository addressRepository;
+    private final UtilisateurRepository userRepository;
+    private final AdresseRepository adresseRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthServiceImpl(final UserRepository userRepository, final AddressRepository addressRepository) {
-        this.userRepository = userRepository;
-        this.addressRepository = addressRepository;
+    public AuthServiceImpl(final UtilisateurRepository utilisateurRepository, final AdresseRepository adresseRepository) {
+        this.userRepository = utilisateurRepository;
+        this.adresseRepository = adresseRepository;
         this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     }
@@ -44,7 +43,7 @@ public class AuthServiceImpl implements AuthService {
         user.setMotDePasse(hashedPassword);
 
         // Save address
-        addressRepository.save(user.getAdresse());
+        adresseRepository.save(user.getAdresse());
 
         // Save user
         userRepository.save(user);

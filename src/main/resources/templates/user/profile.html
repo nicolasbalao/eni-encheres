@@ -1,0 +1,42 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/layout :: layout(titrePage=~{:: title}, contenuPage=~{:: main}, ressourcesSupp=~{:: #ressources})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mon profile</title>
+    <th:block id="ressources"></th:block>
+</head>
+
+<body>
+<main>
+    <h1 th:text="${profile.pseudo}" class="text-center text-lg mb-10 font-semibold"></h1>
+    <div class="flex justify-center min-h-screen w-1/4 mx-auto">
+
+        <div class="mb-2 w-full">
+            <div class="flex items-center justify-between">
+                <span>Prénom: </span>
+                <span th:text="${profile.prenom}"></span>
+            </div>
+            <div class="flex justify-between mb-2">
+                <span>Nom: </span>
+                <span th:text="${profile.nom}"></span>
+            </div>
+            <div class="flex justify-between mb-2">
+                <p>Email: </p>
+                <p th:text="${profile.email}"></p>
+            </div>
+
+            <div class="flex justify-between mb-2">
+                <p>Téléphone</p>
+                <p th:text="${profile.telephone}"></p>
+            </div>
+            <button class="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
+                <a href="#">Modifier</a>
+            </button>
+        </div>
+    </div>
+</main>
+</body>
+
+</html>

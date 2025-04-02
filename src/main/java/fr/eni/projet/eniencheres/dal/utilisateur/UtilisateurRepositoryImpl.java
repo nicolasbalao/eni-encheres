@@ -1,18 +1,18 @@
-package fr.eni.projet.eniencheres.dal;
+package fr.eni.projet.eniencheres.dal.utilisateur;
 
 import fr.eni.projet.eniencheres.bo.Utilisateur;
-import fr.eni.projet.eniencheres.dal.interfaces.UserRepository;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserRepositoryImpl implements UserRepository {
+public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
     private final NamedParameterJdbcTemplate jdbc;
 
 
-    public UserRepositoryImpl(NamedParameterJdbcTemplate jdbc) {
+    public UtilisateurRepositoryImpl(NamedParameterJdbcTemplate jdbc) {
         this.jdbc = jdbc;
     }
 
@@ -48,4 +48,29 @@ public class UserRepositoryImpl implements UserRepository {
         Integer count = jdbc.queryForObject(sql, params, Integer.class);
         return count != null && count > 0;
     }
+
+    @Override
+    public Utilisateur profileByPseudo(String pseudo) {
+        String sql = "SELECT prenom, nom, email, telephone, pseudo FROM utilisateurs WHERE pseudo = :pseudo";
+        MapSqlParameterSource params = new MapSqlParameterSource().addValue("pseudo", pseudo);
+
+        return jdbc.queryForObject(sql, params, new BeanPropertyRowMapper<>(Utilisateur.class));
+    }
+
+    @Override
+    public Utilisateur profileDetailsByPseudo(String pseudo) {
+        String sql = """
+                SELECT pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit
+                FROM utilisateurs u
+                JOIN adresses a ON a.no_adresse = u.no_adresse
+                WHERE u.pseudo = :pseudo
+                """;
+
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("pseudo", pseudo);
+
+        return jdbc.queryForObject(sql, params, new UtilisateurRowMapper());
+    }
+
+
 }

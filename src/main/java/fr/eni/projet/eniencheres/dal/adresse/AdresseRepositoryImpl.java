@@ -1,7 +1,6 @@
-package fr.eni.projet.eniencheres.dal;
+package fr.eni.projet.eniencheres.dal.adresse;
 
 import fr.eni.projet.eniencheres.bo.Adresse;
-import fr.eni.projet.eniencheres.dal.interfaces.AddressRepository;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -9,11 +8,11 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class AddressRepositoryImpl implements AddressRepository {
+public class AdresseRepositoryImpl implements AdresseRepository {
 
     private final NamedParameterJdbcTemplate jdbc;
 
-    public AddressRepositoryImpl(NamedParameterJdbcTemplate jdbc) {
+    public AdresseRepositoryImpl(NamedParameterJdbcTemplate jdbc) {
         this.jdbc = jdbc;
     }
 

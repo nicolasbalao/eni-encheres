@@ -17,6 +17,8 @@
                     <a href="/?language=en"><img class="h-[25px]" alt="English" src="/images/English.webp"></a>
                 </div>
                 <a class="text-blue-500 underline" href="/" th:text="#{header.home}"></a>
+                <a sec:authorize="isAuthenticated()" href="/profile" th:text="#{header.myProfile}"
+                   class="text-blue-500 underline"></a>
                 <a class="text-blue-500 underline" href="/login" sec:authorize="!isAuthenticated()"
                    th:text="#{header.loginRegister}"></a>
                 <form data-th-action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
