@@ -37,12 +37,17 @@ public class SecurityConfiguration {
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/static/**").permitAll()
                 .requestMatchers("/css/**").permitAll()
+                .requestMatchers("/js/**").permitAll()
                 .requestMatchers("/images/**").permitAll()
-                .requestMatchers("/uploads/**").permitAll());
+                .requestMatchers("/uploads/**").permitAll()
+                .requestMatchers("/register").permitAll()
+                .anyRequest().authenticated()
+        );
 
-        http.formLogin(form -> form.loginPage("/login").permitAll());
-
+        http.formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/").permitAll());
 
         return http.build();
     }
+
 }
+
