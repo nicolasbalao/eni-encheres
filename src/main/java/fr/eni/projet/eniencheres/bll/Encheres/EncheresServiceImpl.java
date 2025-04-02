@@ -20,4 +20,9 @@ public class EncheresServiceImpl implements EncheresService {
     public List<Enchere> consulterArticlesAVendre() {
         return articlesAVendreRepository.read();
     }
+
+    @Override
+    public List<Enchere> consulterArticlesAVendre(String articleName, String category, boolean isAchat, int achatSelect, int venteSelect, String pseudo) {
+        return articlesAVendreRepository.read(articleName, category, isAchat, achatSelect, venteSelect, pseudo);
+    }
 }

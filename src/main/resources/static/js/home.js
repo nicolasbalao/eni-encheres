@@ -43,3 +43,28 @@ function resetFilter(){
     })
 
 }
+
+function toogleTypeChoise(isAchatSelected){
+    // select achat
+    const selectAchat = document.querySelector("#achatSelect");
+
+    // select vente
+    const selectVente = document.querySelector("#venteSelect");
+
+    if(!selectAchat || !selectVente){
+        console.log("Les selecteurs achats et vente ne sont pas trouvable");
+        return;
+    }
+
+    // si on sélectionne achat
+    if(isAchatSelected){
+        selectAchat.disabled = false;
+        selectVente.disabled = true;
+    }
+    // si c'est vente
+    else {
+        selectVente.disabled = false;
+        selectAchat.disabled = true;
+    }
+
+}
