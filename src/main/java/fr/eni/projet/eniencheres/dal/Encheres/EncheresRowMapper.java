@@ -1,9 +1,6 @@
 package fr.eni.projet.eniencheres.dal.Encheres;
 
-import fr.eni.projet.eniencheres.bo.Adresse;
-import fr.eni.projet.eniencheres.bo.ArticleAVendre;
-import fr.eni.projet.eniencheres.bo.Enchere;
-import fr.eni.projet.eniencheres.bo.Utilisateur;
+import fr.eni.projet.eniencheres.bo.*;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.Date;
@@ -42,6 +39,9 @@ public class EncheresRowMapper implements RowMapper<Enchere> {
 
         u.setAdresse(a);
 
+        Categorie c = new Categorie();
+        c.setId(rs.getLong("id_categorie"));
+        c.setLibelle(rs.getString("categorie").replaceAll(" ", ""));
 
         ArticleAVendre aav = new ArticleAVendre();
         aav.setNom(rs.getString("nom_article"));
@@ -54,6 +54,7 @@ public class EncheresRowMapper implements RowMapper<Enchere> {
 
         aav.setRetrait(new Adresse());
         aav.setVendeur(u);
+        aav.setCategorie(c);
 
         e.setArticleAVendre(aav);
 
