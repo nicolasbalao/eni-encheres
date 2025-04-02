@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" data-th-fragment="frag-header">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      data-th-fragment="frag-header">
 <head>
 </head>
 <body>
@@ -16,7 +17,12 @@
                     <a href="/?language=en"><img class="h-[25px]" alt="English" src="/images/English.webp"></a>
                 </div>
                 <a class="text-blue-500 underline" href="/" th:text="#{header.home}"></a>
-                <a class="text-blue-500 underline" href="/login" th:text="#{header.loginRegister}"></a>
+                <a class="text-blue-500 underline" href="/login" sec:authorize="!isAuthenticated()"
+                   th:text="#{header.loginRegister}"></a>
+                <form data-th-action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+                    <button class="text-blue-500 underline cursor-pointer" th:text="#{header.logout}"
+                            type="submit"></button>
+                </form>
             </div>
         </div>
     </div>
