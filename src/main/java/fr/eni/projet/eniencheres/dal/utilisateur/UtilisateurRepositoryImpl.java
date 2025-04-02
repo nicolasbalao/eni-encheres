@@ -1,6 +1,7 @@
 package fr.eni.projet.eniencheres.dal.utilisateur;
 
 import fr.eni.projet.eniencheres.bo.Utilisateur;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -54,7 +55,11 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         String sql = "SELECT prenom, nom, email, telephone, pseudo FROM utilisateurs WHERE pseudo = :pseudo";
         MapSqlParameterSource params = new MapSqlParameterSource().addValue("pseudo", pseudo);
 
-        return jdbc.queryForObject(sql, params, new BeanPropertyRowMapper<>(Utilisateur.class));
+        try {
+            return jdbc.queryForObject(sql, params, new BeanPropertyRowMapper<>(Utilisateur.class));
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
