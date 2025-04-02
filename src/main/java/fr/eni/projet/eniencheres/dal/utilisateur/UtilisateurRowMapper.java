@@ -1,4 +1,4 @@
-package fr.eni.projet.eniencheres.dal.rowMapper;
+package fr.eni.projet.eniencheres.dal.utilisateur;
 
 import fr.eni.projet.eniencheres.bo.Utilisateur;
 import org.springframework.jdbc.core.RowMapper;

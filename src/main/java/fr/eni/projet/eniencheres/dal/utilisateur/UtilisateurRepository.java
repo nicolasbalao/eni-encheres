@@ -1,8 +1,8 @@
-package fr.eni.projet.eniencheres.dal.interfaces;
+package fr.eni.projet.eniencheres.dal.utilisateur;
 
 import fr.eni.projet.eniencheres.bo.Utilisateur;
 
-public interface UserRepository {
+public interface UtilisateurRepository {
     public void save(Utilisateur user);
 
     public boolean existByPseudo(String pseudo);

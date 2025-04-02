@@ -1,6 +1,6 @@
 package fr.eni.projet.eniencheres.controller;
 
-import fr.eni.projet.eniencheres.bll.interfaces.UtilisateurService;
+import fr.eni.projet.eniencheres.bll.utilisateur.UtilisateurService;
 import fr.eni.projet.eniencheres.bo.Utilisateur;
 import fr.eni.projet.eniencheres.exception.BusinessException;
 import org.springframework.security.core.Authentication;

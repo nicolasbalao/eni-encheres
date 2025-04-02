@@ -1,4 +1,4 @@
-package fr.eni.projet.eniencheres.bll.interfaces;
+package fr.eni.projet.eniencheres.bll.auth;
 
 import fr.eni.projet.eniencheres.bo.Utilisateur;
 

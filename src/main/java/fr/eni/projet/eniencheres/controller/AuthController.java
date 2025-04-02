@@ -1,6 +1,6 @@
 package fr.eni.projet.eniencheres.controller;
 
-import fr.eni.projet.eniencheres.bll.interfaces.AuthService;
+import fr.eni.projet.eniencheres.bll.auth.AuthService;
 import fr.eni.projet.eniencheres.bo.Utilisateur;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;

@@ -1,20 +1,18 @@
-package fr.eni.projet.eniencheres.dal;
+package fr.eni.projet.eniencheres.dal.utilisateur;
 
 import fr.eni.projet.eniencheres.bo.Utilisateur;
-import fr.eni.projet.eniencheres.dal.interfaces.UserRepository;
-import fr.eni.projet.eniencheres.dal.rowMapper.UtilisateurRowMapper;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserRepositoryImpl implements UserRepository {
+public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
     private final NamedParameterJdbcTemplate jdbc;
 
 
-    public UserRepositoryImpl(NamedParameterJdbcTemplate jdbc) {
+    public UtilisateurRepositoryImpl(NamedParameterJdbcTemplate jdbc) {
         this.jdbc = jdbc;
     }
 
