@@ -65,7 +65,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
     @Override
     public Utilisateur profileDetailsByPseudo(String pseudo) {
         String sql = """
-                SELECT pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit
+                SELECT pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, a.no_adresse
                 FROM utilisateurs u
                 JOIN adresses a ON a.no_adresse = u.no_adresse
                 WHERE u.pseudo = :pseudo
@@ -75,6 +75,23 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
                 .addValue("pseudo", pseudo);
 
         return jdbc.queryForObject(sql, params, new UtilisateurRowMapper());
+    }
+
+    @Override
+    public int update(Utilisateur user) {
+        String sql = """
+                UPDATE utilisateurs
+                SET prenom = :prenom, nom = :nom, email = :email, telephone = :telephone
+                WHERE pseudo = :pseudo
+                """;
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("pseudo", user.getPseudo());
+        params.addValue("prenom", user.getPrenom());
+        params.addValue("nom", user.getNom());
+        params.addValue("email", user.getEmail());
+        params.addValue("telephone", user.getTelephone());
+
+        return jdbc.update(sql, params);
     }
 
 
