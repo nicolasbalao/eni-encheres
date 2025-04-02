@@ -8,4 +8,8 @@ public interface UserRepository {
     public boolean existByPseudo(String pseudo);
 
     public boolean existByEmail(String email);
+
+    public Utilisateur profileByPseudo(String pseudo);
+
+    public Utilisateur profileDetailsByPseudo(String pseudo);
 }
