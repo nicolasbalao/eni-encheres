@@ -94,5 +94,25 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         return jdbc.update(sql, params);
     }
 
+    @Override
+    public void updatePassword(String pseudo, String password) {
+        String sql = """
+                    UPDATE utilisateurs SET mot_de_passe = :password WHERE pseudo = :pseudo
+                """;
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("pseudo", pseudo);
+        params.addValue("password", password);
+        jdbc.update(sql, params);
+    }
+
+    @Override
+    public String getPassword(String pseudo) {
+        String sql = "SELECT mot_de_passe FROM utilisateurs WHERE pseudo = :pseudo";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("pseudo", pseudo);
+        return jdbc.queryForObject(sql, params, String.class);
+    }
+
 
 }

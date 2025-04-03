@@ -14,4 +14,8 @@ public interface UtilisateurRepository {
     public Utilisateur profileDetailsByPseudo(String pseudo);
 
     public int update(Utilisateur user);
+
+    public void updatePassword(String pseudo, String password);
+
+    public String getPassword(String pseudo);
 }
