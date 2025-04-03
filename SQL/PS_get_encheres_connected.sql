@@ -1,7 +1,7 @@
-ALTER PROCEDURE sp_get_encheres_connected
+CREATE PROCEDURE sp_get_encheres
     @nom_article NVARCHAR(255) = '',
     @nom_libelle NVARCHAR(255) = '',
-    @statut_enchere INT = 1,
+    @statut_enchere INT = 4,
     @is_achat bit = 1,
     @pseudo NVARCHAR(50) = ''
 AS
