@@ -1,5 +1,5 @@
 <html lang="en"
-      data-th-replace="~{layouts/layout :: layout(titrePage=~{:: title}, contenuPage=~{:: main}, ressourcesSupp=~{:: #ressources})}">
+      data-th-replace="~{layouts/layout :: layout(titrePage=#{register.title}, contenuPage=~{:: main}, ressourcesSupp=~{:: #ressources})}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,8 +7,6 @@
     <th:block id="ressources">
         <script data-th-src="@{/js/register.js}"></script>
     </th:block>
-
-    <title>Register</title>
 </head>
 <main class="bg-gray-100">
 
