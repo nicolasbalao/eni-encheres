@@ -1,8 +1,6 @@
 package fr.eni.projet.eniencheres.dal.Encheres;
 
-import fr.eni.projet.eniencheres.bo.ArticleAVendre;
 import fr.eni.projet.eniencheres.bo.Enchere;
-import fr.eni.projet.eniencheres.dal.utilisateur.UtilisateurRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,5 @@
 package fr.eni.projet.eniencheres.bll.Encheres;
 
-import fr.eni.projet.eniencheres.bo.ArticleAVendre;
 import fr.eni.projet.eniencheres.bo.Enchere;
 import fr.eni.projet.eniencheres.dal.Encheres.EncheresRepository;
 import org.springframework.stereotype.Service;
