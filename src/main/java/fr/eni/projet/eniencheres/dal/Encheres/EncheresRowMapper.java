@@ -13,7 +13,9 @@ public class EncheresRowMapper implements RowMapper<Enchere> {
         Enchere e = new Enchere();
 
         Double montant_enchere = rs.getObject("montant_enchere", Double.class);
-        e.setMontant(montant_enchere != null ? montant_enchere : rs.getDouble("prix_initial"));
+        Double prix_initial = rs.getObject("prix_initial", Double.class);
+
+        e.setMontant(montant_enchere != null  && montant_enchere > prix_initial ? montant_enchere : prix_initial);
 
         Date sqlDate = rs.getDate("date_enchere");
         e.setDate(sqlDate != null ? sqlDate.toLocalDate() : null);
