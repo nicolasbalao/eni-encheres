@@ -1,7 +1,6 @@
 package fr.eni.projet.eniencheres.controller;
 
 import fr.eni.projet.eniencheres.bll.Encheres.EncheresService;
-import fr.eni.projet.eniencheres.bo.ArticleAVendre;
 import fr.eni.projet.eniencheres.bo.Enchere;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -12,21 +11,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 
 @Controller
 public class HomeController {
-    private EncheresService articlesAVendreService;
+    private EncheresService encheresService;
 
-    public HomeController(EncheresService articlesAVendreService) {
+    public HomeController(EncheresService encheresService) {
         super();
-        this.articlesAVendreService = articlesAVendreService;
+        this.encheresService = encheresService;
     }
 
     @GetMapping("/")
     public String home(Model model) {
-        List<Enchere> encheres = articlesAVendreService.consulterArticlesAVendre();
+        List<Enchere> encheres = encheresService.consulterEncheres();
 
         model.addAttribute("encheres", encheres);
         return "index";
@@ -43,7 +41,7 @@ public class HomeController {
     ) {
         String userPseudo = auth.getName();
 
-        List<Enchere> encheres = articlesAVendreService.consulterArticlesAVendre(searchBar, category, typeChoix, parseInt((achatSelect == null) ? "0" : achatSelect), parseInt((venteSelect == null) ? "0" : venteSelect), userPseudo);
+        List<Enchere> encheres = encheresService.consulterEncheres(searchBar, category, typeChoix, parseInt((achatSelect == null) ? "0" : achatSelect), parseInt((venteSelect == null) ? "0" : venteSelect), userPseudo);
 
         model.addAttribute("encheres", encheres);
         return "index";

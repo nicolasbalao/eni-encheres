@@ -9,4 +9,6 @@ public interface UtilisateurService {
     public Utilisateur displayProfileDetails(String pseudo);
 
     public void updateProfile(Utilisateur utilisateur);
+
+    public void updatePassword(String pseudo, String password, String newPassword);
 }

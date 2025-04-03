@@ -5,6 +5,6 @@ import fr.eni.projet.eniencheres.bo.Enchere;
 import java.util.List;
 
 public interface EncheresService {
-    public List<Enchere> consulterArticlesAVendre();
-    public List<Enchere> consulterArticlesAVendre(String articleName, String category, boolean isAchat, int achatSelect, int venteSelect, String pseudo);
+    public List<Enchere> consulterEncheres();
+    public List<Enchere> consulterEncheres(String articleName, String category, boolean isAchat, int achatSelect, int venteSelect, String pseudo);
 }

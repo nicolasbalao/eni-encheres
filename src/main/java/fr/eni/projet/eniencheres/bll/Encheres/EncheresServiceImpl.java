@@ -8,20 +8,20 @@ import java.util.List;
 
 @Service
 public class EncheresServiceImpl implements EncheresService {
-    private EncheresRepository articlesAVendreRepository;
+    private EncheresRepository encheresRepository;
 
-    public EncheresServiceImpl(EncheresRepository articlesAVendreRepository) {
+    public EncheresServiceImpl(EncheresRepository encheresRepository) {
         super();
-        this.articlesAVendreRepository = articlesAVendreRepository;
+        this.encheresRepository = encheresRepository;
     }
 
     @Override
-    public List<Enchere> consulterArticlesAVendre() {
-        return articlesAVendreRepository.read();
+    public List<Enchere> consulterEncheres() {
+        return encheresRepository.read();
     }
 
     @Override
-    public List<Enchere> consulterArticlesAVendre(String articleName, String category, boolean isAchat, int achatSelect, int venteSelect, String pseudo) {
-        return articlesAVendreRepository.read(articleName, category, isAchat, achatSelect, venteSelect, pseudo);
+    public List<Enchere> consulterEncheres(String articleName, String category, boolean isAchat, int achatSelect, int venteSelect, String pseudo) {
+        return encheresRepository.read(articleName, category, isAchat, achatSelect, venteSelect, pseudo);
     }
 }
