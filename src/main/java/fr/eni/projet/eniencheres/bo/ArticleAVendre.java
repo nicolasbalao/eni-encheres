@@ -1,17 +1,36 @@
 package fr.eni.projet.eniencheres.bo;
 
+import fr.eni.projet.eniencheres.validation.articleAVendre.ArticleAVendreDateValidator;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
+@ArticleAVendreDateValidator
 public class ArticleAVendre {
     private Long id;
+    @Size(min = 2, max = 30)
     private String nom;
+    @Size(min = 2, max = 300)
     private String description;
+
+    @FutureOrPresent(message = "La date de début des enchères doit être dans le futur ou aujourd'hui")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate dateDebutEncheres;
+
+    @Future(message = "La date de début des enchères doit être dans le futur ou aujourd'hui")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate dateFinEncheres;
+
     private Number statut;
+    @Min(1)
     private Number prixInitial;
     private Number prixFinal;
+
     private Utilisateur vendeur;
     private Adresse retrait;
     private Categorie categorie;
@@ -118,6 +137,7 @@ public class ArticleAVendre {
     public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
     }
+
 
     @Override
     public boolean equals(Object o) {

@@ -8,6 +8,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class AdresseRepositoryImpl implements AdresseRepository {
 
@@ -85,4 +87,10 @@ public class AdresseRepositoryImpl implements AdresseRepository {
         return count != null && count > 0;
     }
 
+    @Override
+    public List<Adresse> findEniAdresse(String pseudo) {
+        String sql = "SELECT no_adresse, rue, ville, code_postal FROM adresses WHERE adresse_eni = 1";
+
+        return jdbc.query(sql, new AdresseRowMapper());
+    }
 }
