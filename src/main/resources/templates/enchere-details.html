@@ -1,0 +1,65 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      th:replace="~{layouts/layout :: layout(titrePage=${titre_enchere_details}, contenuPage=~{::main}, ressourcesSupp=~{})}"
+      lang="fr">
+    <main>
+        <div class="container mx-auto mt-16">
+            <div class="flex flex-row justify-around ring ring-blue-500/50 rounded-xl p-16" th:with="e=${enchere}">
+
+                <div class="flex flex-col">
+                    <div class="flex flex-row gap-4 p-4 items-center">
+                        <label for="article_nom" class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white">Article :</label>
+                        <input type="text" disabled id="article_nom" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5" th:value="${e.articleAVendre.nom}" />
+                    </div>
+                    <div class="flex flex-row gap-4 p-4 items-center">
+                        <label for="article_categorie" class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white">Catégorie :</label>
+                        <input type="text" disabled id="article_categorie" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5" th:value="${e.articleAVendre.categorie.libelle}" />
+                    </div>
+                    <div class="flex flex-row gap-4 p-4 items-center">
+                        <label for="article_description" class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white">Description :</label>
+                        <textarea disabled id="article_description" rows="7" class="min-h-40 max-h-fit p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-[300px]" th:text="${e.articleAVendre.description}"></textarea>
+                    </div>
+                    <div class="flex flex-row gap-4 p-4 items-center">
+                        <label for="article_retrait" class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white">Retrait :</label>
+                        <input type="text" disabled id="article_retrait" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block min-w-[450px]  p-2.5" th:value="${e.articleAVendre.retrait}" />
+                    </div>
+                    <div class="flex flex-row gap-4 p-4 items-center">
+                        <label for="article_vendeur" class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white">Vendeur :</label>
+                        <!-- Si c'est notre enchère -->
+                        <input th:if="${#authentication.name == enchere.articleAVendre.vendeur.pseudo}" type="text" disabled id="article_vendeur" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5" th:value="${e.articleAVendre.vendeur.pseudo} + ' (Vous)'" />
+                        <input th:if="${#authentication.name != enchere.articleAVendre.vendeur.pseudo}" type="text" disabled id="article_vendeur" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5" th:value="${e.articleAVendre.vendeur.pseudo}" />
+                    </div>
+                    <!-- Si c'est pas notre enchère et qu'elle est en cours -->
+                    <div th:if="${#authentication.name != enchere.articleAVendre.vendeur.pseudo && enchere.articleAVendre.statut == 1}" class="flex flex-row gap-4 p-4 items-center">
+                        <label for="article_enchere" class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white">Mon enchère :</label>
+                        <input type="number" id="article_enchere" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5" th:min="${e.montant + 1}" th:value="${e.montant + 1}" />
+                        <button th:type="button" onclick="() => {alert('oui')}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-md px-8 py-3 me-2">Enchérir</button>
+                    </div>
+                    <!-- Si c'est notre enchère et qu'elle est terminée -->
+                    <div th:if="${#authentication.name == enchere.articleAVendre.vendeur.pseudo && enchere.articleAVendre.statut == 2 }" class="flex flex-row gap-4 p-4 items-center">
+                        <button th:type="button" onclick="window.location.href='/'" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-md px-8 py-3 me-2">retrait effectué</button>
+                    </div>
+                    <div class="flex flex-row gap-4 p-4 items-center">
+                        <button th:type="button" onclick="window.location.href='/'" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-md px-8 py-3 me-2">Retour</button>
+                    </div>
+                </div>
+
+                <div class="flex flex-col">
+                    <div class="flex flex-row gap-4 p-4 items-center">
+                        <label for="article_prix_initial" class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white">Mise à prix :</label>
+                        <input type="number" disabled id="article_prix_initial" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5" th:value="${e.articleAVendre.prixInitial}" />
+                    </div>
+                    <div class="flex flex-row gap-4 p-4 items-center">
+                        <label for="article_meilleur_prix" class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white">Meilleur offre :</label>
+                        <input type="number" disabled id="article_meilleur_prix" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5" th:value="${e.montant}" />
+                    </div>
+                    <div class="flex flex-row gap-4 p-4 items-center">
+                        <label for="article_date_fin_enchere" class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white">Fin de l'enchère :</label>
+                        <input type="text" disabled id="article_date_fin_enchere" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5" th:value="${e.articleAVendre.dateFinEncheres}" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</html>
