@@ -1,6 +1,7 @@
 package fr.eni.projet.eniencheres.dal.Encheres;
 
 import fr.eni.projet.eniencheres.bo.Enchere;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,17 @@ public class EncheresRepositoryImpl implements EncheresRepository {
         params.addValue("is_achat", isAchat ? 1 : 0);
         params.addValue("pseudo", pseudo);
 
-        return jdbc.query("EXEC sp_get_encheres :nom_article, :nom_libelle, :statut_enchere, :is_achat, :pseudo", params, new EncheresRowMapper());
+        return jdbc.query("EXEC sp_get_encheres 0,NULL, :nom_article, :nom_libelle, :statut_enchere, :is_achat, :pseudo", params, new EncheresRowMapper());
+    }
+
+    @Override
+    public Enchere find(long id) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("no_article", id);
+        try {
+            return jdbc.queryForObject("EXEC sp_get_encheres 1,:no_article", params, new EncheresRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 }
