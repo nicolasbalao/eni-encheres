@@ -33,4 +33,21 @@ public class AdresseRepositoryImpl implements AdresseRepository {
             address.setId(keyHolder.getKey().longValue());
         }
     }
+
+    @Override
+    public int update(Adresse adresse) {
+        String sql = """
+                UPDATE adresses
+                SET rue = :rue, code_postal = :code_postal, ville = :ville
+                WHERE no_adresse = :no_adresse
+                """;
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("rue", adresse.getRue());
+        params.addValue("code_postal", adresse.getCodePostal());
+        params.addValue("ville", adresse.getVille());
+        params.addValue("no_adresse", adresse.getId());
+
+        return jdbc.update(sql, params);
+    }
 }

@@ -12,4 +12,6 @@ public interface UtilisateurRepository {
     public Utilisateur profileByPseudo(String pseudo);
 
     public Utilisateur profileDetailsByPseudo(String pseudo);
+
+    public int update(Utilisateur user);
 }

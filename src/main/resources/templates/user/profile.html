@@ -36,7 +36,7 @@
                     <p th:text="${profile.telephone}"></p>
                 </div>
                 <button class="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
-                    <a href="#" th:if="${#authentication.name == profile.pseudo}">Modifier</a>
+                    <a th:href="@{/profile/edit}" th:if="${#authentication.name == profile.pseudo}">Modifier</a>
                     <a href="/" th:if="${#authentication.name != profile.pseudo}">Retour</a>
                 </button>
             </div>
