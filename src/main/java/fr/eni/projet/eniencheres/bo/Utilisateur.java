@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Utilisateur {
     @NotBlank
     @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "Le pseudo ne doit contenir que des caractères alphanumériques et des underscores.")
-    @Size(min = 5, max = 30)
+    @Size(min = 2, max = 30)
     private String pseudo;
 
     @NotBlank
@@ -128,7 +128,7 @@ public class Utilisateur {
     public List<ArticleAVendre> getArticleAVendres() {
         return articleAVendres;
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
