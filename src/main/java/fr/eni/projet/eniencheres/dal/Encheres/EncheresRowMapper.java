@@ -12,6 +12,10 @@ public class EncheresRowMapper implements RowMapper<Enchere> {
     public Enchere mapRow(ResultSet rs, int rowNum) throws SQLException {
         Enchere e = new Enchere();
 
+        Utilisateur acquereur = new Utilisateur();
+        acquereur.setPseudo(rs.getString("acheteur") != null ? rs.getString("acheteur") : "");
+        e.setAcquereur(acquereur);
+
         Double montant_enchere = rs.getObject("montant_enchere", Double.class);
         Double prix_initial = rs.getObject("prix_initial", Double.class);
 
@@ -52,11 +56,12 @@ public class EncheresRowMapper implements RowMapper<Enchere> {
         retrait.setCodePostal(rs.getString("retrait_code_postal"));
 
         ArticleAVendre aav = new ArticleAVendre();
+        aav.setId(rs.getLong("no_article"));
         aav.setNom(rs.getString("nom_article"));
         aav.setDescription(rs.getString("description"));
         aav.setDateDebutEncheres(rs.getDate("date_debut_encheres").toLocalDate());
         aav.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
-        aav.setStatut(rs.getDouble(("statut_enchere")));
+        aav.setStatut(rs.getInt(("statut_enchere")));
         aav.setPrixInitial(rs.getDouble("prix_initial"));
         aav.setPrixFinal(rs.getDouble("prix_vente"));
 
