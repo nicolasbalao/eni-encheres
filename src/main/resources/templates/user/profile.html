@@ -1,11 +1,11 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layouts/layout :: layout(titrePage=~{:: title}, contenuPage=~{:: main}, ressourcesSupp=~{:: #ressources})}">
+      th:replace="~{layouts/layout :: layout(titrePage=${profile.pseudo}, contenuPage=~{:: main}, ressourcesSupp=~{})}">
 
 <head>
     <meta charset="UTF-8">
     <title>Mon profile</title>
-    <th:block id="ressources"></th:block>
+
 </head>
 
 <body>
@@ -15,9 +15,7 @@
         <p th:text="#{${errorMessage}}" class="text-center"></p>
     </div>
     <th:block th:if="${profile}">
-
-        <h1 th:text="${profile.pseudo}" class="text-center text-lg mb-10 font-semibold"></h1>
-        <div class="flex justify-center min-h-screen w-1/4 mx-auto">
+        <div class="flex justify-center min-h-screen w-1/4 mx-auto mt-8">
 
             <div class="mb-2 w-full">
                 <div class="flex items-center justify-between">
@@ -38,7 +36,7 @@
                     <p th:text="${profile.telephone}"></p>
                 </div>
                 <button class="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
-                    <a href="#" th:if="${#authentication.name == profile.pseudo}">Modifier</a>
+                    <a th:href="@{/profile/edit}" th:if="${#authentication.name == profile.pseudo}">Modifier</a>
                     <a href="/" th:if="${#authentication.name != profile.pseudo}">Retour</a>
                 </button>
             </div>

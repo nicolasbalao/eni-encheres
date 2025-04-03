@@ -4,4 +4,6 @@ import fr.eni.projet.eniencheres.bo.Adresse;
 
 public interface AdresseRepository {
     public void save(Adresse address);
+
+    public int update(Adresse address);
 }
