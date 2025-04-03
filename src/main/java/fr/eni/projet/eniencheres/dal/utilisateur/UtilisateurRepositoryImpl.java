@@ -81,7 +81,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
     public int update(Utilisateur user) {
         String sql = """
                 UPDATE utilisateurs
-                SET prenom = :prenom, nom = :nom, email = :email, telephone = :telephone
+                SET prenom = :prenom, nom = :nom, email = :email, telephone = :telephone, no_adresse = :no_adresse
                 WHERE pseudo = :pseudo
                 """;
         MapSqlParameterSource params = new MapSqlParameterSource();
@@ -90,6 +90,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         params.addValue("nom", user.getNom());
         params.addValue("email", user.getEmail());
         params.addValue("telephone", user.getTelephone());
+        params.addValue("no_adresse", user.getAdresse().getId());
 
         return jdbc.update(sql, params);
     }

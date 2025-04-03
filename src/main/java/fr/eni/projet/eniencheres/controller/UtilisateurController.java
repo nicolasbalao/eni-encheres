@@ -77,7 +77,7 @@ public class UtilisateurController {
         }
 
         try {
-            utilisateurService.updateProfile(user);
+            utilisateurService.update(user);
         } catch (BusinessException e) {
             ObjectError error = new ObjectError("globalError", e.getMessage());
             bindingResult.addError(error);
@@ -85,7 +85,7 @@ public class UtilisateurController {
 
         }
 
-        return "redirect:/profile/edit";
+        return "redirect:/profile";
     }
 
     @GetMapping("/profile/edit/password")
