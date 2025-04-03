@@ -30,8 +30,8 @@ public class EncheresRepositoryImpl implements EncheresRepository {
     @Override
     public List<Enchere> read(String articleName, String category, boolean isAchat, int achatSelect, int venteSelect, String pseudo) {
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("nom_article", '%' + articleName + '%');
-        params.addValue("nom_libelle", '%' + category + '%');
+        params.addValue("nom_article", articleName);
+        params.addValue("nom_libelle", category);
         params.addValue("statut_enchere", (isAchat ? achatSelect : venteSelect));
         params.addValue("is_achat", isAchat ? 1 : 0);
         params.addValue("pseudo", pseudo);
