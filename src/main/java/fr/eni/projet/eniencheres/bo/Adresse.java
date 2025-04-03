@@ -74,11 +74,6 @@ public class Adresse {
 
     @Override
     public String toString() {
-        return "AdresseBo{" +
-                "id=" + id +
-                ", rue='" + rue + '\'' +
-                ", codePostal='" + codePostal + '\'' +
-                ", ville='" + ville + '\'' +
-                '}';
+        return rue + " " + codePostal + " " + ville;
     }
 }
