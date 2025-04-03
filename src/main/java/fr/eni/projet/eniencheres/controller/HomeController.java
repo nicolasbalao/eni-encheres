@@ -41,13 +41,6 @@ public class HomeController {
             Model model,
             Authentication auth
     ) {
-        // Tu peux afficher les valeurs dans la console pour debug
-        System.out.println("searchBar: " + searchBar);
-        System.out.println("category: " + category);
-        System.out.println("typeChoix: " + typeChoix);
-        System.out.println("achatSelect: " +  parseInt((achatSelect == null) ? "0" : achatSelect));
-        System.out.println("venteSelect: " + parseInt((venteSelect == null) ? "0" : venteSelect));
-
         String userPseudo = auth.getName();
 
         List<Enchere> encheres = articlesAVendreService.consulterArticlesAVendre(searchBar, category, typeChoix, parseInt((achatSelect == null) ? "0" : achatSelect), parseInt((venteSelect == null) ? "0" : venteSelect), userPseudo);
