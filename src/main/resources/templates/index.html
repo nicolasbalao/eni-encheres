@@ -2,9 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
       th:replace="~{layouts/layout :: layout(titrePage=#{header.home}, contenuPage=~{::main}, ressourcesSupp=~{})}"
       lang="fr">
-<head>
-    <title th:text="#{header.home}"></title>
-</head>
 <main>
     <div class="container mx-auto px-4">
 
@@ -46,8 +43,8 @@
                         <button th:type="button" onclick="resetFilter()" type="button" class="py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Anuler</button>
                     </div>
                     <div sec:authorize="isAuthenticated()" class="flex flex-col gap-4 justify-center">
-                        <button th:type="submit" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2">Rechercher</button>
-                        <button th:type="submit" type="button" class="py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Anuler</button>
+                        <button th:type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2">Rechercher</button>
+                        <button th:type="submit" class="py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Anuler</button>
                     </div>
                 </div>
 
@@ -95,7 +92,8 @@
                         </div>
                         <div class="flex flex-col">
                             <div class="flex mb-3">
-                                <h3 class="font-semibold enchere-titre" th:text="${enchere.articleAVendre.nom}"></h3>
+                                <h3 sec:authorize="!isAuthenticated()" class="font-semibold enchere-titre" th:text="${enchere.articleAVendre.nom}"></h3>
+                                <a th:href="${'/enchere/'+enchere.articleAVendre.id}" sec:authorize="isAuthenticated()" class="text-blue-500 underline font-semibold enchere-titre" th:text="${enchere.articleAVendre.nom}"></a>
                             </div>
                             <div class="flex flex-col gap-1 px-2">
                                 <div class="flex flex-row gap-1">
