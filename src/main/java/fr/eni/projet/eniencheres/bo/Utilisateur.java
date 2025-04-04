@@ -28,7 +28,7 @@ public class Utilisateur {
     private String email;
     private String telephone;
     private String motDePasse;
-    private Number credit;
+    private int credit;
     private Boolean admin;
     private Adresse adresse;
     private List<ArticleAVendre> articleAVendres = new ArrayList<>();
@@ -37,7 +37,7 @@ public class Utilisateur {
     public Utilisateur() {
     }
 
-    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String motDePasse, Number credit, Boolean admin) {
+    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String motDePasse, int credit, Boolean admin) {
         this.pseudo = pseudo;
         this.nom = nom;
         this.prenom = prenom;
@@ -73,7 +73,7 @@ public class Utilisateur {
         this.motDePasse = motDePasse;
     }
 
-    public void setCredit(Number credit) {
+    public void setCredit(int credit) {
         this.credit = credit;
     }
 
@@ -113,7 +113,7 @@ public class Utilisateur {
         return motDePasse;
     }
 
-    public Number getCredit() {
+    public int getCredit() {
         return credit;
     }
 

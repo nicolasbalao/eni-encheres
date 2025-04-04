@@ -30,8 +30,14 @@ public class EncheresServiceImpl implements EncheresService {
         return encheresRepository.find(id);
     }
 
+
     @Override
     public Enchere livrerEnchere(long id) {
         return this.encheresRepository.livrerEnchere(id);
+    }
+
+    @Override
+    public Enchere encherire(String pseudoAcheteur, long idArticle, int montant) {
+        return encheresRepository.encherire(pseudoAcheteur, idArticle, montant);
     }
 }

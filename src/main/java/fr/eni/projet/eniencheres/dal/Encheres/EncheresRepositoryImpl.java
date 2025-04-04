@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -56,6 +57,44 @@ public class EncheresRepositoryImpl implements EncheresRepository {
     }
 
     @Override
+    public void create(long id_article, String acheteur, int montant) {
+        String sql = """
+        INSERT INTO ENCHERES (id_utilisateur, no_article, montant_enchere, date_enchere)
+        VALUES (:pseudo, :id_article, :montant_enchere, :date_enchere)
+        """;
+
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("pseudo", acheteur)
+                .addValue("id_article", id_article)
+                .addValue("montant_enchere", montant)
+                .addValue("date_enchere", new Date());
+
+        jdbc.update(sql, params);
+    }
+
+
+    @Override
+    public Enchere encherire(String pseudoAcheteur, long idArticle, int montant) {
+        Enchere enchere = find(idArticle);
+        if (enchere != null) {
+
+            Utilisateur acheteur = utilisateurRepository.profileByPseudo(pseudoAcheteur);
+
+            if (acheteur.getCredit() < montant) {
+                throw new IllegalArgumentException("Crédit insuffisant de l'acheteur pour effectuer la transaction.");
+            }
+            else if(montant < enchere.getMontant()){
+                throw new IllegalArgumentException("Crédit inférieur a l'offre la plus haute.");
+            }
+
+            this.create(enchere.getArticleAVendre().getId(), pseudoAcheteur, montant);
+
+            return this.find(enchere.getArticleAVendre().getId());
+        }
+        return new Enchere();
+    }
+
+    @Override
     public void updateStatusEnchere(long id, Number status) {
         String sql = """
                 UPDATE ARTICLES_A_VENDRE
@@ -65,6 +104,8 @@ public class EncheresRepositoryImpl implements EncheresRepository {
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("status", status)
                 .addValue("id", id);
+
+        jdbc.update(sql, params);
     }
 
     @Override
@@ -72,21 +113,25 @@ public class EncheresRepositoryImpl implements EncheresRepository {
     public Enchere livrerEnchere(long id) {
         Enchere enchere = find(id);
         if (enchere != null) {
+            if(enchere.getArticleAVendre().getStatut().intValue() != 2){
+                throw new IllegalArgumentException("Il semblerait que le vente n'est pas en statut cloturé.");
+            }
 
             Utilisateur acheteur = utilisateurRepository.profileByPseudo(enchere.getAcquereur().getPseudo());
             Utilisateur vendeur = utilisateurRepository.profileByPseudo(enchere.getArticleAVendre().getVendeur().getPseudo());
-            Number credit_to_transfert = enchere.getMontant();
+            int credit_to_transfert = enchere.getMontant();
 
-            if (acheteur.getCredit().intValue() < credit_to_transfert.intValue()) {
+            if (acheteur.getCredit() < credit_to_transfert) {
                 throw new IllegalArgumentException("Crédit insuffisant de l'acheteur pour effectuer la transaction.");
             }
 
-            utilisateurRepository.updateCreditUser(acheteur.getPseudo(), acheteur.getCredit().intValue() - credit_to_transfert.intValue());
-            utilisateurRepository.updateCreditUser(vendeur.getPseudo(), vendeur.getCredit().intValue() + credit_to_transfert.intValue());
+            utilisateurRepository.updateCreditUser(acheteur.getPseudo(), acheteur.getCredit() - credit_to_transfert);
+            utilisateurRepository.updateCreditUser(vendeur.getPseudo(), vendeur.getCredit() + credit_to_transfert);
             updateStatusEnchere(enchere.getArticleAVendre().getId(), 3);
 
             return this.find(enchere.getArticleAVendre().getId());
         }
         return new Enchere();
     }
+
 }
