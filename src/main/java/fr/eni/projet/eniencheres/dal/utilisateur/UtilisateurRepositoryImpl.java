@@ -104,5 +104,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("pseudo", pseudo)
                 .addValue("credit", credit);
+
+        jdbc.update(sql, params);
     }
 }
