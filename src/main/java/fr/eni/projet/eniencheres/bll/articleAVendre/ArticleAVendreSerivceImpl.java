@@ -2,6 +2,7 @@ package fr.eni.projet.eniencheres.bll.articleAVendre;
 
 import fr.eni.projet.eniencheres.bo.Adresse;
 import fr.eni.projet.eniencheres.bo.ArticleAVendre;
+import fr.eni.projet.eniencheres.bo.StatutEnchere;
 import fr.eni.projet.eniencheres.dal.adresse.AdresseRepository;
 import fr.eni.projet.eniencheres.dal.articleAVendre.ArticleAVendreRepository;
 import fr.eni.projet.eniencheres.dal.categorie.CategorieRepository;
@@ -38,9 +39,9 @@ public class ArticleAVendreSerivceImpl implements ArticleAVendreService {
 
         //STATUT_ENCHERE:  0 ( non commencée), 1 (en cours), 2 (clôturée), 3 (livrée), 100 (annulée)
         if (LocalDate.now().isEqual(articleAVendre.getDateDebutEncheres())) {
-            articleAVendre.setStatut(1);
+            articleAVendre.setStatut(StatutEnchere.EN_COURS);
         } else {
-            articleAVendre.setStatut(0);
+            articleAVendre.setStatut(StatutEnchere.NON_COMMENCEE);
         }
 
         articleAVendreRepository.insert(articleAVendre);

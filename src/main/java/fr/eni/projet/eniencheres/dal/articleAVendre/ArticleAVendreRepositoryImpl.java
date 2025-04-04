@@ -27,7 +27,7 @@ public class ArticleAVendreRepositoryImpl implements ArticleAVendreRepository {
         params.addValue("description", articleAVendre.getDescription());
         params.addValue("date_debut_encheres", articleAVendre.getDateDebutEncheres());
         params.addValue("date_fin_encheres", articleAVendre.getDateFinEncheres());
-        params.addValue("status_enchere", articleAVendre.getStatut());
+        params.addValue("status_enchere", articleAVendre.getStatut().getCode());
         params.addValue("prix_initial", articleAVendre.getPrixInitial());
         params.addValue("id_utilisateur", articleAVendre.getVendeur().getPseudo());
         params.addValue("no_categorie", articleAVendre.getCategorie().getId());
