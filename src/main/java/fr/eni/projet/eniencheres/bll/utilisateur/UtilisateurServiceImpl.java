@@ -55,7 +55,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     @Transactional
     public void save(Utilisateur utilisateur) {
-        Long adresseId = adresseRepositoryImpl.findAdresseByID(utilisateur.getAdresse());
+        Long adresseId = adresseRepositoryImpl.findAdresseByAdresse(utilisateur.getAdresse());
         if (adresseId == null) {
             adresseRepositoryImpl.save(utilisateur.getAdresse());
         }
@@ -64,7 +64,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     @Transactional
     public void update(Utilisateur utilisateur) {
-        Long adresseId = adresseRepositoryImpl.findAdresseByID(utilisateur.getAdresse());
+        Long adresseId = adresseRepositoryImpl.findAdresseByAdresse(utilisateur.getAdresse());
         boolean isSharedAdresse = adresseRepositoryImpl.isSharedAdresse(utilisateur.getAdresse().getId(), utilisateur.getPseudo());
         if (adresseId == null && !isSharedAdresse) {
             adresseRepositoryImpl.update(utilisateur.getAdresse());

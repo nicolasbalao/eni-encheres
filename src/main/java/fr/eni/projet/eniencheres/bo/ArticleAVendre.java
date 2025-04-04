@@ -19,11 +19,11 @@ public class ArticleAVendre {
     private String description;
 
     @FutureOrPresent(message = "La date de début des enchères doit être dans le futur ou aujourd'hui")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateDebutEncheres;
 
     @Future(message = "La date de début des enchères doit être dans le futur ou aujourd'hui")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateFinEncheres;
 
     private Number statut;

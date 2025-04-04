@@ -3,7 +3,9 @@ package fr.eni.projet.eniencheres.dal.articleAVendre;
 import fr.eni.projet.eniencheres.bo.ArticleAVendre;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ArticleAVendreRepositoryImpl implements ArticleAVendreRepository {
 
     private final NamedParameterJdbcTemplate jdbc;
@@ -16,8 +18,8 @@ public class ArticleAVendreRepositoryImpl implements ArticleAVendreRepository {
     public void insert(ArticleAVendre articleAVendre) {
         String sql = """
                 INSERT INTO 
-                    article_a_vendre(nom_article, description, date_debut_encheres, date_fin_encheres, statut_encheres, prix_initial, id_utilisateur, no_categorie, no_adresse_retrait)
-                    VALUES(:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :status_encheres, :prix_initial, :id_utilisateur, :no_categorie, :no_adresse_retrait)
+                    articles_a_vendre(nom_article, description, date_debut_encheres, date_fin_encheres, statut_enchere, prix_initial, id_utilisateur, no_categorie, no_adresse_retrait)
+                    VALUES(:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :status_enchere, :prix_initial, :id_utilisateur, :no_categorie, :no_adresse_retrait)
                 """;
 
         MapSqlParameterSource params = new MapSqlParameterSource();
@@ -25,11 +27,11 @@ public class ArticleAVendreRepositoryImpl implements ArticleAVendreRepository {
         params.addValue("description", articleAVendre.getDescription());
         params.addValue("date_debut_encheres", articleAVendre.getDateDebutEncheres());
         params.addValue("date_fin_encheres", articleAVendre.getDateFinEncheres());
-        params.addValue("status_encheres", articleAVendre.getStatut());
+        params.addValue("status_enchere", articleAVendre.getStatut());
         params.addValue("prix_initial", articleAVendre.getPrixInitial());
-        params.addValue("id_utilisiteur", articleAVendre.getVendeur().getPseudo());
+        params.addValue("id_utilisateur", articleAVendre.getVendeur().getPseudo());
         params.addValue("no_categorie", articleAVendre.getCategorie().getId());
-        params.addValue("no_adresse", articleAVendre.getRetrait().getId());
+        params.addValue("no_adresse_retrait", articleAVendre.getRetrait().getId());
 
         jdbc.update(sql, params);
     }

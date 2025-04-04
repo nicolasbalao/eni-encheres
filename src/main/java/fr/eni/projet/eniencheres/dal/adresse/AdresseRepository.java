@@ -9,10 +9,14 @@ public interface AdresseRepository {
 
     public int update(Adresse address);
 
-    public Long findAdresseByID(Adresse address);
+    public Long findAdresseByAdresse(Adresse address);
+
+    public Adresse findAdresseById(Long id);
 
     public boolean isSharedAdresse(Long addressId, String pseudo);
 
-    public List<Adresse> findEniAdresse(String pseudo);
+    public List<Adresse> findEniAdresse();
+
+    public Adresse findAdresseByUtilisateurPseudo(String pseudo);
 
 }
