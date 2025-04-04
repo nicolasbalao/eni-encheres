@@ -74,6 +74,7 @@ public class EncheresRepositoryImpl implements EncheresRepository {
 
 
     @Override
+    @Transactional
     public Enchere encherire(String pseudoAcheteur, long idArticle, int montant) {
         Enchere enchere = find(idArticle);
         if (enchere != null) {
@@ -87,7 +88,17 @@ public class EncheresRepositoryImpl implements EncheresRepository {
                 throw new IllegalArgumentException("Crédit inférieur a l'offre la plus haute.");
             }
 
+            // on crée l'enchère
             this.create(enchere.getArticleAVendre().getId(), pseudoAcheteur, montant);
+
+            // on débite l'acheteur
+            utilisateurRepository.updateCreditUser(acheteur.getPseudo(), acheteur.getCredit() - montant);
+
+            // on crédite l'ancien acheteur
+            if(enchere.getAcquereur() != null && enchere.getAcquereur().getPseudo() != null && !enchere.getAcquereur().getPseudo().isEmpty()){
+                Utilisateur ancien_acheteur = utilisateurRepository.profileByPseudo(enchere.getAcquereur().getPseudo());
+                utilisateurRepository.updateCreditUser(ancien_acheteur.getPseudo(), ancien_acheteur.getCredit() + enchere.getMontant());
+            }
 
             return this.find(enchere.getArticleAVendre().getId());
         }
@@ -117,16 +128,13 @@ public class EncheresRepositoryImpl implements EncheresRepository {
                 throw new IllegalArgumentException("Il semblerait que le vente n'est pas en statut cloturé.");
             }
 
-            Utilisateur acheteur = utilisateurRepository.profileByPseudo(enchere.getAcquereur().getPseudo());
+            // on récupère le vendeur
             Utilisateur vendeur = utilisateurRepository.profileByPseudo(enchere.getArticleAVendre().getVendeur().getPseudo());
-            int credit_to_transfert = enchere.getMontant();
 
-            if (acheteur.getCredit() < credit_to_transfert) {
-                throw new IllegalArgumentException("Crédit insuffisant de l'acheteur pour effectuer la transaction.");
-            }
+            // on crédite le vendeur
+            utilisateurRepository.updateCreditUser(vendeur.getPseudo(), vendeur.getCredit() + enchere.getMontant());
 
-            utilisateurRepository.updateCreditUser(acheteur.getPseudo(), acheteur.getCredit() - credit_to_transfert);
-            utilisateurRepository.updateCreditUser(vendeur.getPseudo(), vendeur.getCredit() + credit_to_transfert);
+            // on met à jour le status de l'enchère
             updateStatusEnchere(enchere.getArticleAVendre().getId(), 3);
 
             return this.find(enchere.getArticleAVendre().getId());
