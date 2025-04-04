@@ -16,10 +16,10 @@ public class EncheresRowMapper implements RowMapper<Enchere> {
         acquereur.setPseudo(rs.getString("acheteur") != null ? rs.getString("acheteur") : "");
         e.setAcquereur(acquereur);
 
-        Double montant_enchere = rs.getObject("montant_enchere", Double.class);
-        Double prix_initial = rs.getObject("prix_initial", Double.class);
+        int montant_enchere = rs.getObject("montant_enchere", Integer.class);
+        int prix_initial = rs.getObject("prix_initial", Integer.class);
 
-        e.setMontant(montant_enchere != null  && montant_enchere > prix_initial ? montant_enchere : prix_initial);
+        e.setMontant(montant_enchere > prix_initial ? montant_enchere : prix_initial);
 
         Date sqlDate = rs.getDate("date_enchere");
         e.setDate(sqlDate != null ? sqlDate.toLocalDate() : null);
@@ -34,7 +34,7 @@ public class EncheresRowMapper implements RowMapper<Enchere> {
 
         u.setTelephone(rs.getString("telephone"));
         u.setAdmin(rs.getBoolean("administrateur"));
-        u.setCredit(rs.getDouble("credit"));
+        u.setCredit(rs.getInt("credit"));
 
         Adresse a = new Adresse();
 
