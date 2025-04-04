@@ -30,10 +30,7 @@ public class EnchereController {
     }
 
     @PostMapping("/clotureEnchere")
-    public String cloture_enchere(@RequestParam(required = false) Long id, Model model, Authentication auth) {
-        if (id == null) {
-            return "redirect:/";
-        }
+    public String cloture_enchere(@RequestParam(required = true) Long id, Model model, Authentication auth) {
         try {
             Enchere enchere = encheresService.livrerEnchere(id);
             model.addAttribute("enchere", enchere);
@@ -43,6 +40,24 @@ public class EnchereController {
             return "enchere-details";
         }
         catch (Exception e) {
+            System.out.println(e.getMessage());
+            return "redirect:/";
+        }
+    }
+
+    @PostMapping("/encherir")
+    public String encherir(@RequestParam(required = true) Long idArticle, @RequestParam(required = true) int montant, Model model, Authentication auth) {
+        String pseudoAcheteur = auth.getName();
+
+        try {
+            Enchere enchere = encheresService.encherire(pseudoAcheteur, idArticle, montant);
+            model.addAttribute("enchere", enchere);
+            model.addAttribute("titre_enchere_details", this.get_title(enchere, auth));
+            model.addAttribute("vente_close", false);
+            return "enchere-details";
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
             return "redirect:/";
         }
 
@@ -67,5 +82,4 @@ public class EnchereController {
         }
         return titre_enchere_details;
     }
-
 }

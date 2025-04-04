@@ -30,11 +30,13 @@
                         <input th:if="${#authentication.name != enchere.articleAVendre.vendeur.pseudo}" type="text" disabled id="article_vendeur" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5" th:value="${e.articleAVendre.vendeur.pseudo}" />
                     </div>
                     <!-- Si c'est pas notre enchère et qu'elle est en cours -->
-                    <div th:if="${#authentication.name != enchere.articleAVendre.vendeur.pseudo && enchere.articleAVendre.statut == 1}" class="flex flex-row gap-4 p-4 items-center">
+                    <form action="/encherir" method="post" th:if="${#authentication.name != enchere.articleAVendre.vendeur.pseudo && enchere.articleAVendre.statut == 1}" class="flex flex-row gap-4 p-4 items-center">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <input type="hidden" name="idArticle" th:value="${e.articleAVendre.id}" />
                         <label for="article_enchere" class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white">Mon enchère :</label>
-                        <input type="number" id="article_enchere" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5" th:min="${e.montant + 1}" th:value="${e.montant + 1}" />
-                        <button th:type="button" onclick="() => {alert('oui')}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-md px-8 py-3 me-2">Enchérir</button>
-                    </div>
+                        <input name="montant" type="number" id="article_enchere" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5" step="1" th:min="${e.montant + 1}" th:value="${e.montant + 1}" />
+                        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-md px-8 py-3 me-2">Enchérir</button>
+                     </form>
                     <!-- Si c'est notre enchère et qu'elle est terminée -->
                     <div th:if="${#authentication.name == enchere.articleAVendre.vendeur.pseudo && enchere.articleAVendre.statut == 2 }" class="flex flex-row gap-4 p-4 items-center">
                         <form action="/clotureEnchere" method="post">
