@@ -52,7 +52,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
     @Override
     public Utilisateur profileByPseudo(String pseudo) {
-        String sql = "SELECT prenom, nom, email, telephone, pseudo FROM utilisateurs WHERE pseudo = :pseudo";
+        String sql = "SELECT prenom, nom, email, telephone, pseudo, credit FROM utilisateurs WHERE pseudo = :pseudo";
         MapSqlParameterSource params = new MapSqlParameterSource().addValue("pseudo", pseudo);
 
         try {
@@ -94,5 +94,15 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         return jdbc.update(sql, params);
     }
 
-
+    @Override
+    public void updateCreditUser(String pseudo, int credit) {
+        String sql = """
+                UPDATE utilisateurs
+                SET credit = :credit
+                WHERE pseudo = :pseudo
+                """;
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("pseudo", pseudo)
+                .addValue("credit", credit);
+    }
 }

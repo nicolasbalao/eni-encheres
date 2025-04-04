@@ -29,4 +29,9 @@ public class EncheresServiceImpl implements EncheresService {
     public Enchere consulterEnchere(long id) {
         return encheresRepository.find(id);
     }
+
+    @Override
+    public Enchere livrerEnchere(long id) {
+        return this.encheresRepository.livrerEnchere(id);
+    }
 }
