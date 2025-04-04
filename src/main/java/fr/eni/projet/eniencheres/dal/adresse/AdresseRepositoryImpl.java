@@ -8,6 +8,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class AdresseRepositoryImpl implements AdresseRepository {
 
@@ -53,7 +55,7 @@ public class AdresseRepositoryImpl implements AdresseRepository {
     }
 
     @Override
-    public Long findAdresseByID(Adresse address) {
+    public Long findAdresseByAdresse(Adresse address) {
         String sql = "SELECT no_adresse FROM adresses WHERE ville = :ville AND code_postal = :code_postal AND rue = :rue";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("ville", address.getVille());
@@ -66,6 +68,14 @@ public class AdresseRepositoryImpl implements AdresseRepository {
         } catch (EmptyResultDataAccessException e) {
             return null; // L'adresse n'existe pas
         }
+    }
+
+    @Override
+    public Adresse findAdresseById(Long id) {
+        String sql = "SELECT * FROM Adresses WHERE no_adresse = :no_adresse";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("no_adresse", id);
+        return jdbc.queryForObject(sql, params, new AdresseRowMapper());
     }
 
     @Override
@@ -85,4 +95,24 @@ public class AdresseRepositoryImpl implements AdresseRepository {
         return count != null && count > 0;
     }
 
+    @Override
+    public List<Adresse> findEniAdresse() {
+        String sql = "SELECT no_adresse, rue, ville, code_postal FROM adresses WHERE adresse_eni = 1";
+
+        return jdbc.query(sql, new AdresseRowMapper());
+    }
+
+    @Override
+    public Adresse findAdresseByUtilisateurPseudo(String pseudo) {
+        String sql = """
+                SELECT * 
+                FROM Adresses a
+                JOIN utilisateurs u ON u.no_adresse = a.no_adresse
+                WHERE u.pseudo = :pseudo; 
+                """;
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("pseudo", pseudo);
+        return jdbc.queryForObject(sql, params, new AdresseRowMapper());
+    }
 }
