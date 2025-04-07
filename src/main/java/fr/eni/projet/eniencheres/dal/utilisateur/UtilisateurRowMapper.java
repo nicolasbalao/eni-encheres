@@ -2,6 +2,7 @@ package fr.eni.projet.eniencheres.dal.utilisateur;
 
 import fr.eni.projet.eniencheres.bo.Adresse;
 import fr.eni.projet.eniencheres.bo.Utilisateur;
+import fr.eni.projet.eniencheres.dal.adresse.AdresseRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -18,12 +19,8 @@ public class UtilisateurRowMapper implements RowMapper<Utilisateur> {
         utilisateur.setTelephone(rs.getString("telephone"));
         utilisateur.setCredit(rs.getDouble("credit"));
 
-        Adresse adresse = new Adresse();
-        adresse.setRue(rs.getString("rue"));
-        adresse.setVille(rs.getString("ville"));
-        adresse.setCodePostal(rs.getString("code_postal"));
-        adresse.setId(rs.getLong("no_adresse"));
-
+        AdresseRowMapper adresseRowMapper = new AdresseRowMapper();
+        Adresse adresse = adresseRowMapper.mapRow(rs, rowNum);
         utilisateur.setAdresse(adresse);
 
         return utilisateur;
