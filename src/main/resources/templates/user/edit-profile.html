@@ -1,6 +1,6 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      data-th-replace="~{layouts/layout :: layout(titrePage=~{:: title}, contenuPage=~{:: main}, ressourcesSupp=~{:: #ressources}, toast=${toast})}">
+      data-th-replace="~{layouts/layout :: layout(titrePage='Mon profil', contenuPage=~{:: main}, ressourcesSupp=~{:: #ressources}, toast=${toast})}">
 >
 <head>
     <meta charset="UTF-8">
@@ -92,6 +92,12 @@
                     <button type="submit"
                             class="w-full bg-blue-500 text-white py-2 rounded-lg cursor-pointer hover:bg-blue-600 transition">
                         Modifier
+                    </button>
+                    <button type="button"
+                            class="w-full bg-blue-500 text-white py-2 rounded-lg cursor-pointer hover:bg-blue-600 transition">
+                        <a th:href="@{/profile/edit/password}">
+                            Modifier mot de passe
+                        </a>
                     </button>
                     <button type="button" class="ml-4 w-full">
                         <a href="/profile" class="text-gray-600 hover:text-blue-500">Annuler</a>

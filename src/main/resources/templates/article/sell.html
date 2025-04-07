@@ -1,0 +1,123 @@
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      data-th-replace="~{layouts/layout :: layout(titrePage='Nouvelle vente', contenuPage=~{:: main}, ressourcesSupp=~{})}">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+<main>
+    <div class="flex justify-center items-end mt-40">
+        <div class="w-full max-w-1/2">
+            <form data-th-action="${articleAVendre.id} != null ?
+                 @{/articles/{id}/sale/edit(id=${articleAVendre.id})} :
+                 @{/articles/sell}" method="post" data-th-object="${articleAVendre}"
+                  class="flex flex-col gap-4">
+                <div data-th-replace="~{fragments/errors/frag-errors :: frag-errors}"
+                     class="text-red-500 text-sm mb-4">
+                </div>
+                
+                <div class="flex justify-between items-center w-full gap-8">
+                    <div class="flex gap-4 items-center w-1/2">
+                        <label for="name" class="block text-sm font-medium text-gray-600 w-1/3">Article (*):
+                        </label>
+                        <input type="text" id="name" data-th-field="*{nom}"
+                               class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                               required>
+                        <div data-th-replace="~{fragments/errors/frag-error :: frag-error('nom')}"></div>
+                    </div>
+                    <div class="flex gap-4 items-center w-1/2">
+                        <label for="price" class="block text-sm font-medium text-gray-600 w-1/3">Mise à prix (*):
+                        </label>
+                        <input type="number" min="0" id="price" data-th-field="*{prixInitial}"
+                               class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                               required>
+                        <div data-th-replace="~{fragments/errors/frag-error :: frag-error('prixInitial')}"></div>
+
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center w-full gap-8">
+                    <div class="flex gap-4 items-center w-1/2">
+                        <label for="categorie" class="block text-sm font-medium text-gray-600 w-1/3">Categorie (*):
+                        </label>
+                        <select id="categorie" data-th-field="*{categorie.id}"
+                                class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            <option th:each="categorie : ${categories}" th:text="${categorie.libelle}"
+                                    th:value="${categorie.id}">
+
+                            </option>
+                        </select>
+                        <div data-th-replace="~{fragments/errors/frag-error :: frag-error('categorie')}"></div>
+
+                    </div>
+                    <div class="flex gap-4 items-center w-1/2">
+                        <label for="dateDeDebut" class="block text-sm font-medium text-gray-600 w-1/3">Début de
+                            l'enchère(*): </label>
+                        <input type="date" min="0" id="dateDeDebut" data-th-field="*{dateDebutEncheres}"
+                               class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                               required>
+                        <div data-th-replace="~{fragments/errors/frag-error :: frag-error('dateDebutEncheres')}">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center w-full gap-8">
+                    <div class="flex gap-4 items-center w-1/2">
+                        <label for="description" class="block text-sm font-medium text-gray-600 w-1/3">Description
+                            (*): </label>
+                        <textarea id="description" th:field="*{description}"
+                                  class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+                        <div data-th-replace="~{fragments/errors/frag-error :: frag-error('description')}"></div>
+
+                    </div>
+                    <div class="flex gap-4 items-center w-1/2">
+                        <label for="dateDeFin" class="block text-sm font-medium text-gray-600 w-1/3">Fin de
+                            l'enchère(*): </label>
+                        <input type="date" min="0" id="dateDeFin" data-th-field="*{dateFinEncheres}"
+                               class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                               required>
+                        <div data-th-replace="~{fragments/errors/frag-error :: frag-error('dateFinEncheres')}">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center w-full gap-8">
+                    <label for="retrait" class="block text-sm font-medium text-gray-600 mr-10">Retrait (*):
+                    </label>
+                    <select id="retrait" th:field="*{retrait.id}"
+                            class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        <option th:each="adresse : ${adresses}" th:text="${adresse.toString()}"
+                                th:value="${adresse.id}">
+                        </option>
+                    </select>
+                    <div data-th-replace="~{fragments/errors/frag-error :: frag-error('retrait')}"></div>
+
+                </div>
+
+                <div class="flex justify-between items-center mt-8">
+                    <button type="submit"
+                            class="w-full bg-blue-500 text-white py-2 rounded-lg cursor-pointer hover:bg-blue-600 transition">
+                        Suivant
+                    </button>
+
+                    <button type="button" class="ml-4 w-full">
+                        <a th:href="@{/}" class="text-gray-600 hover:text-blue-500">Annuler</a>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <form th:if="${articleAVendre.id}"
+              th:action="@{/articles/{id}/sale/cancel(id=${articleAVendre.id})}" method="post">
+            <button type="submit"
+                    class="w-full bg-blue-500 text-white p-2 rounded-lg cursor-pointer hover:bg-blue-600 transition">
+                Annuler la vente
+            </button>
+        </form>
+    </div>
+</main>
+</body>
+
+</html>

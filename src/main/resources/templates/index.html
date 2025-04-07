@@ -109,8 +109,9 @@
                                 </div>
                                 <div class="flex flex-row gap-1">
                                     <p class="text-sm font-medium">Vendeur : </p>
-                                    <p class="text-sm enchere-vendeur"
-                                       th:text="${enchere.articleAVendre.vendeur.pseudo}"></p>
+                                    <a th:href="@{'/users/' + ${enchere.articleAVendre.vendeur.pseudo} + '/profile'}"
+                                       class="text-sm enchere-vendeur underline text-blue-500"
+                                       th:text="${enchere.articleAVendre.vendeur.pseudo}"/>
                                 </div>
                             </div>
                         </div>

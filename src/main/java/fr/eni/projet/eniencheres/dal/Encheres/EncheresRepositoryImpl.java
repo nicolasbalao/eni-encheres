@@ -1,14 +1,14 @@
 package fr.eni.projet.eniencheres.dal.Encheres;
 
-import fr.eni.projet.eniencheres.bll.Encheres.EncheresService;
 import fr.eni.projet.eniencheres.bo.Enchere;
+import fr.eni.projet.eniencheres.bo.StatutEnchere;
 import fr.eni.projet.eniencheres.bo.Utilisateur;
 import fr.eni.projet.eniencheres.dal.utilisateur.UtilisateurRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.stereotype.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -30,7 +30,7 @@ public class EncheresRepositoryImpl implements EncheresRepository {
 
     @Override
     public List<Enchere> read() {
-        return jdbc.query("EXEC sp_get_encheres",new EncheresRowMapper());
+        return jdbc.query("EXEC sp_get_encheres", new EncheresRowMapper());
     }
 
     @Override
@@ -59,9 +59,9 @@ public class EncheresRepositoryImpl implements EncheresRepository {
     @Override
     public void create(long id_article, String acheteur, int montant) {
         String sql = """
-        INSERT INTO ENCHERES (id_utilisateur, no_article, montant_enchere, date_enchere)
-        VALUES (:pseudo, :id_article, :montant_enchere, :date_enchere)
-        """;
+                INSERT INTO ENCHERES (id_utilisateur, no_article, montant_enchere, date_enchere)
+                VALUES (:pseudo, :id_article, :montant_enchere, :date_enchere)
+                """;
 
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("pseudo", acheteur)
@@ -83,8 +83,7 @@ public class EncheresRepositoryImpl implements EncheresRepository {
 
             if (acheteur.getCredit() < montant) {
                 throw new IllegalArgumentException("Crédit insuffisant de l'acheteur pour effectuer la transaction.");
-            }
-            else if(montant < enchere.getMontant()){
+            } else if (montant < enchere.getMontant()) {
                 throw new IllegalArgumentException("Crédit inférieur a l'offre la plus haute.");
             }
 
@@ -95,7 +94,7 @@ public class EncheresRepositoryImpl implements EncheresRepository {
             utilisateurRepository.updateCreditUser(acheteur.getPseudo(), acheteur.getCredit() - montant);
 
             // on crédite l'ancien acheteur
-            if(enchere.getAcquereur() != null && enchere.getAcquereur().getPseudo() != null && !enchere.getAcquereur().getPseudo().isEmpty()){
+            if (enchere.getAcquereur() != null && enchere.getAcquereur().getPseudo() != null && !enchere.getAcquereur().getPseudo().isEmpty()) {
                 Utilisateur ancien_acheteur = utilisateurRepository.profileByPseudo(enchere.getAcquereur().getPseudo());
                 utilisateurRepository.updateCreditUser(ancien_acheteur.getPseudo(), ancien_acheteur.getCredit() + enchere.getMontant());
             }
@@ -124,7 +123,7 @@ public class EncheresRepositoryImpl implements EncheresRepository {
     public Enchere livrerEnchere(long id) {
         Enchere enchere = find(id);
         if (enchere != null) {
-            if(enchere.getArticleAVendre().getStatut().intValue() != 2){
+            if (enchere.getArticleAVendre().getStatut() != StatutEnchere.CLOTUREE) {
                 throw new IllegalArgumentException("Il semblerait que le vente n'est pas en statut cloturé.");
             }
 

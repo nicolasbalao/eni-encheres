@@ -2,6 +2,7 @@ package fr.eni.projet.eniencheres.controller;
 
 import fr.eni.projet.eniencheres.bll.utilisateur.UtilisateurService;
 import fr.eni.projet.eniencheres.bo.Utilisateur;
+import fr.eni.projet.eniencheres.dto.UpdatePasswordRequestDto;
 import fr.eni.projet.eniencheres.exception.BusinessException;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
@@ -76,16 +77,44 @@ public class UtilisateurController {
         }
 
         try {
-            utilisateurService.updateProfile(user);
+            utilisateurService.update(user);
         } catch (BusinessException e) {
             ObjectError error = new ObjectError("globalError", e.getMessage());
             bindingResult.addError(error);
             return "user/edit-profile";
 
         }
-        
-        return "redirect:/profile/edit";
+
+        return "redirect:/profile";
     }
 
+    @GetMapping("/profile/edit/password")
+    public String editMyPasswordPage(Model model, Authentication auth) {
+        UpdatePasswordRequestDto updatePasswordRequestDto = new UpdatePasswordRequestDto();
+        updatePasswordRequestDto.setPseudo(auth.getName());
+        model.addAttribute("updatePasswordRequestDto", updatePasswordRequestDto);
+        return "user/edit-password";
+    }
+
+    @PostMapping("/profile/edit/password")
+    public String editMyPassword(@Valid @ModelAttribute UpdatePasswordRequestDto updatePasswordDto, BindingResult bindingResult, Model model, Authentication auth) {
+
+        if (!auth.getName().equals(updatePasswordDto.getPseudo())) {
+            return "redirect:/login";
+        }
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("updatePasswordRequestDto", updatePasswordDto);
+            return "user/edit-password";
+        }
+        try {
+            utilisateurService.updatePassword(updatePasswordDto.getPseudo(), updatePasswordDto.getOldPassword(), updatePasswordDto.getNewPassword());
+        } catch (BusinessException e) {
+            ObjectError error = new ObjectError("globalError", e.getMessage());
+            bindingResult.addError(error);
+            return "user/edit-password";
+        }
+        return "redirect:/profile";
+    }
 
 }

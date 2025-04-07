@@ -81,7 +81,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
     public int update(Utilisateur user) {
         String sql = """
                 UPDATE utilisateurs
-                SET prenom = :prenom, nom = :nom, email = :email, telephone = :telephone
+                SET prenom = :prenom, nom = :nom, email = :email, telephone = :telephone, no_adresse = :no_adresse
                 WHERE pseudo = :pseudo
                 """;
         MapSqlParameterSource params = new MapSqlParameterSource();
@@ -90,8 +90,29 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         params.addValue("nom", user.getNom());
         params.addValue("email", user.getEmail());
         params.addValue("telephone", user.getTelephone());
+        params.addValue("no_adresse", user.getAdresse().getId());
 
         return jdbc.update(sql, params);
+    }
+
+    @Override
+    public void updatePassword(String pseudo, String password) {
+        String sql = """
+                    UPDATE utilisateurs SET mot_de_passe = :password WHERE pseudo = :pseudo
+                """;
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("pseudo", pseudo);
+        params.addValue("password", password);
+        jdbc.update(sql, params);
+    }
+
+    @Override
+    public String getPassword(String pseudo) {
+        String sql = "SELECT mot_de_passe FROM utilisateurs WHERE pseudo = :pseudo";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("pseudo", pseudo);
+        return jdbc.queryForObject(sql, params, String.class);
     }
 
     @Override

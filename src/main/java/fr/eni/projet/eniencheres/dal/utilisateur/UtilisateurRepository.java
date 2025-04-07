@@ -15,5 +15,9 @@ public interface UtilisateurRepository {
 
     public int update(Utilisateur user);
 
+    public void updatePassword(String pseudo, String password);
+
+    public String getPassword(String pseudo);
+
     public void updateCreditUser(String pseudo, int credit);
 }

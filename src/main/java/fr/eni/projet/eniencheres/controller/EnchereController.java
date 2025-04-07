@@ -6,6 +6,10 @@ import fr.eni.projet.eniencheres.bo.Toast;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -75,18 +79,15 @@ public class EnchereController {
     public String get_title(Enchere enchere, Authentication auth) {
         String titre_enchere_details = "";
         String userPseudo = auth.getName();
-        Number statut_enchere = enchere.getArticleAVendre().getStatut();
+        Number statut_enchere = enchere.getArticleAVendre().getStatut().getCode();
 
-        if(statut_enchere.equals(2) && enchere.getAcquereur().getPseudo().equals(userPseudo)) {
+        if (statut_enchere.equals(2) && enchere.getAcquereur().getPseudo().equals(userPseudo)) {
             titre_enchere_details = "Vous avez remporté la vente";
-        }
-        else if (statut_enchere.equals(2) && !enchere.getAcquereur().getPseudo().equals(userPseudo)){
+        } else if (statut_enchere.equals(2) && !enchere.getAcquereur().getPseudo().equals(userPseudo)) {
             titre_enchere_details = enchere.getAcquereur().getPseudo() + " a remporté la vente";
-        }
-        else if (statut_enchere.equals(3) && !enchere.getAcquereur().getPseudo().equals(userPseudo)){
+        } else if (statut_enchere.equals(3) && !enchere.getAcquereur().getPseudo().equals(userPseudo)) {
             titre_enchere_details = enchere.getAcquereur().getPseudo() + " a remporté la vente. La vente est livrée.";
-        }
-        else {
+        } else {
             titre_enchere_details = "Détail d'une vente";
         }
         return titre_enchere_details;

@@ -1,5 +1,6 @@
 package fr.eni.projet.eniencheres.bll.auth;
 
+import fr.eni.projet.eniencheres.bll.utilisateur.UtilisateurServiceImpl;
 import fr.eni.projet.eniencheres.bo.Utilisateur;
 import fr.eni.projet.eniencheres.dal.adresse.AdresseRepository;
 import fr.eni.projet.eniencheres.dal.utilisateur.UtilisateurRepository;
@@ -15,12 +16,13 @@ public class AuthServiceImpl implements AuthService {
     private final UtilisateurRepository userRepository;
     private final AdresseRepository adresseRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UtilisateurServiceImpl utilisateurServiceImpl;
 
-    public AuthServiceImpl(final UtilisateurRepository utilisateurRepository, final AdresseRepository adresseRepository) {
+    public AuthServiceImpl(final UtilisateurRepository utilisateurRepository, final AdresseRepository adresseRepository, UtilisateurServiceImpl utilisateurServiceImpl) {
         this.userRepository = utilisateurRepository;
         this.adresseRepository = adresseRepository;
         this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-
+        this.utilisateurServiceImpl = utilisateurServiceImpl;
     }
 
     @Transactional
@@ -42,11 +44,7 @@ public class AuthServiceImpl implements AuthService {
         String hashedPassword = passwordEncoder.encode(user.getMotDePasse());
         user.setMotDePasse(hashedPassword);
 
-        // Save address
-        adresseRepository.save(user.getAdresse());
-
-        // Save user
-        userRepository.save(user);
+        utilisateurServiceImpl.save(user);
 
     }
 }

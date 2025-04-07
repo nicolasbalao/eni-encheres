@@ -74,6 +74,6 @@ public class Adresse {
 
     @Override
     public String toString() {
-        return rue + " " + codePostal + " " + ville;
+        return String.format("%s %s %s", rue, codePostal, ville).toUpperCase();
     }
 }

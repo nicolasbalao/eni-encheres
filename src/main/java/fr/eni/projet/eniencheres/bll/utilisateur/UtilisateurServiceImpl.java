@@ -4,6 +4,8 @@ import fr.eni.projet.eniencheres.bo.Utilisateur;
 import fr.eni.projet.eniencheres.dal.adresse.AdresseRepositoryImpl;
 import fr.eni.projet.eniencheres.dal.utilisateur.UtilisateurRepository;
 import fr.eni.projet.eniencheres.exception.BusinessException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,10 +14,12 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     private final UtilisateurRepository utilisateurRepository;
     private final AdresseRepositoryImpl adresseRepositoryImpl;
+    private final PasswordEncoder passwordEncoder;
 
     public UtilisateurServiceImpl(final UtilisateurRepository utilisateurRepository, AdresseRepositoryImpl adresseRepositoryImpl) {
         this.utilisateurRepository = utilisateurRepository;
         this.adresseRepositoryImpl = adresseRepositoryImpl;
+        this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Override
@@ -36,20 +40,43 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         return utilisateur;
     }
 
-    @Transactional
     @Override
-    public void updateProfile(Utilisateur utilisateur) {
+    public void updatePassword(String pseudo, String password, String newPassword) {
+        String storedHashedPassword = utilisateurRepository.getPassword(pseudo);
 
-        // 1. Update profile
-        int userRow = utilisateurRepository.update(utilisateur);
-        if (userRow == 0) {
+        if (!passwordEncoder.matches(password, storedHashedPassword)) {
+            throw new BusinessException("error.user.passwordMismatch");
+        }
+
+        String newPasswordHash = passwordEncoder.encode(newPassword);
+
+        utilisateurRepository.updatePassword(pseudo, newPasswordHash);
+    }
+
+    @Transactional
+    public void save(Utilisateur utilisateur) {
+        Long adresseId = adresseRepositoryImpl.findAdresseByAdresse(utilisateur.getAdresse());
+        if (adresseId == null) {
+            adresseRepositoryImpl.save(utilisateur.getAdresse());
+        }
+        utilisateurRepository.save(utilisateur);
+    }
+
+    @Transactional
+    public void update(Utilisateur utilisateur) {
+        Long adresseId = adresseRepositoryImpl.findAdresseByAdresse(utilisateur.getAdresse());
+        boolean isSharedAdresse = adresseRepositoryImpl.isSharedAdresse(utilisateur.getAdresse().getId(), utilisateur.getPseudo());
+        if (adresseId == null && !isSharedAdresse) {
+            adresseRepositoryImpl.update(utilisateur.getAdresse());
+        } else if (adresseId != null) {
+            utilisateur.getAdresse().setId(adresseId);
+        } else {
+            adresseRepositoryImpl.save(utilisateur.getAdresse());
+        }
+        int rowUpdated = utilisateurRepository.update(utilisateur);
+        if (rowUpdated == 0) {
             throw new BusinessException("error.user.notFound");
         }
-        // 2. Update address
-        int addressRow = adresseRepositoryImpl.update(utilisateur.getAdresse());
-        if (addressRow == 0) {
-            throw new BusinessException("error.address.notFound");
-        }
-
     }
+
 }
