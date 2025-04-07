@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
-      data-th-fragment="layout(titrePage, contenuPage, ressourcesSupp)" lang="fr">
+      data-th-fragment="layout(titrePage, contenuPage, ressourcesSupp, toast)" th:with="toast=${toast}" lang="fr">
 
 <head>
     <!--    <title data-th-replace="${titrePage}">Page Title</title>-->
@@ -27,8 +27,9 @@
         </div>
     </div>
 </div>
+<div th:if="${toast != null}" th:replace="~{fragments/frag-toast :: frag-toast(toast=${toast})}"></div>
 
-<main data-th-replace="${contenuPage}"></main>
+<main th:replace="${contenuPage}"></main>
 
 </body>
 
