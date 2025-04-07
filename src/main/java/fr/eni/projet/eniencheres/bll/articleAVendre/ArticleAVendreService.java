@@ -9,4 +9,5 @@ public interface ArticleAVendreService {
 
     public void cancel(ArticleAVendre articleAVendre);
 
+    public void update(ArticleAVendre articleAVendre);
 }

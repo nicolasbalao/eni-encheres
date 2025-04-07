@@ -58,4 +58,31 @@ public class ArticleAVendreRepositoryImpl implements ArticleAVendreRepository {
         jdbc.update(sql, params);
 
     }
+
+    @Override
+    public int update(ArticleAVendre articleAVendre) {
+        String sql = """
+                UPDATE articles_a_vendre
+                SET
+                    nom_article = :nom_article,
+                    description = :description,
+                    date_debut_encheres = :date_debutEncheres,
+                    date_fin_encheres = :date_finEncheres,
+                    prix_initial = :prix_initial,
+                    no_categorie = :no_categorie,
+                    no_adresse_retrait = :no_adresse_retrait
+                WHERE no_article = :no_article
+                """;
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("nom_article", articleAVendre.getNom());
+        params.addValue("description", articleAVendre.getDescription());
+        params.addValue("date_debutEncheres", articleAVendre.getDateDebutEncheres());
+        params.addValue("date_finEncheres", articleAVendre.getDateFinEncheres());
+        params.addValue("prix_initial", articleAVendre.getPrixInitial());
+        params.addValue("no_categorie", articleAVendre.getCategorie().getId());
+        params.addValue("no_adresse_retrait", articleAVendre.getRetrait().getId());
+        params.addValue("no_article", articleAVendre.getId());
+        return jdbc.update(sql, params);
+    }
 }

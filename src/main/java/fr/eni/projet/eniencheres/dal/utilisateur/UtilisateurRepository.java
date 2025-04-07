@@ -18,4 +18,6 @@ public interface UtilisateurRepository {
     public void updatePassword(String pseudo, String password);
 
     public String getPassword(String pseudo);
+
+    public void updateCreditUser(String pseudo, int credit);
 }

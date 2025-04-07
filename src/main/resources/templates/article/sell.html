@@ -9,12 +9,14 @@
 <main>
     <div class="flex justify-center items-end mt-40">
         <div class="w-full max-w-1/2">
-            <form data-th-action="@{/articles/sell}" method="post" data-th-object="${articleAVendre}"
+            <form data-th-action="${articleAVendre.id} != null ?
+                 @{/articles/{id}/sale/edit(id=${articleAVendre.id})} :
+                 @{/articles/sell}" method="post" data-th-object="${articleAVendre}"
                   class="flex flex-col gap-4">
                 <div data-th-replace="~{fragments/errors/frag-errors :: frag-errors}"
                      class="text-red-500 text-sm mb-4">
                 </div>
-
+                
                 <div class="flex justify-between items-center w-full gap-8">
                     <div class="flex gap-4 items-center w-1/2">
                         <label for="name" class="block text-sm font-medium text-gray-600 w-1/3">Article (*):
