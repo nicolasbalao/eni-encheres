@@ -35,4 +35,27 @@ public class ArticleAVendreRepositoryImpl implements ArticleAVendreRepository {
 
         jdbc.update(sql, params);
     }
+
+    @Override
+    public ArticleAVendre findById(Long id) {
+        String sql = "SELECT * FROM articles_a_vendre WHERE no_article = :no_article";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("no_article", id);
+
+        return jdbc.queryForObject(sql, params, new ArticleAVendreRowMapper());
+    }
+
+    @Override
+    public void updateStatut(ArticleAVendre articleAVendre) {
+        String sql = """
+                UPDATE articles_a_vendre SET statut_enchere = :statut_enchere WHERE no_article = :id
+                """;
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("statut_enchere", articleAVendre.getStatut().getCode());
+        params.addValue("id", articleAVendre.getId());
+
+        jdbc.update(sql, params);
+
+    }
 }
