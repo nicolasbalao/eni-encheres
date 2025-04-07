@@ -37,7 +37,6 @@ public class ArticleAVendreSerivceImpl implements ArticleAVendreService {
             throw new BusinessException("article.sell.categorie.notFound");
         }
 
-        //STATUT_ENCHERE:  0 ( non commencée), 1 (en cours), 2 (clôturée), 3 (livrée), 100 (annulée)
         if (LocalDate.now().isEqual(articleAVendre.getDateDebutEncheres())) {
             articleAVendre.setStatut(StatutEnchere.EN_COURS);
         } else {
@@ -62,6 +61,30 @@ public class ArticleAVendreSerivceImpl implements ArticleAVendreService {
     public void cancel(ArticleAVendre articleAVendre) {
         articleAVendre.setStatut(StatutEnchere.ANNULEE);
         articleAVendreRepository.updateStatut(articleAVendre);
+    }
+
+    @Override
+    public void update(ArticleAVendre articleAVendre) {
+        // Check if adresse exist
+        Adresse adresse = adresseRepository.findAdresseById(articleAVendre.getRetrait().getId());
+
+        if (adresse == null) {
+            throw new BusinessException("article.sell.retrait.notFound");
+        }
+
+        // Check if categorie exist
+        boolean categorieExist = categorieRepository.categorieExists(articleAVendre.getCategorie().getId());
+        if (!categorieExist) {
+            throw new BusinessException("article.sell.categorie.notFound");
+        }
+
+
+        int rowUpdated = articleAVendreRepository.update(articleAVendre);
+
+        if (rowUpdated == 0) {
+            throw new BusinessException("article.sell.notFound");
+        }
+
     }
 
 

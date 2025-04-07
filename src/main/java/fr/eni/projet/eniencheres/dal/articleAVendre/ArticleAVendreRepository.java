@@ -8,4 +8,6 @@ public interface ArticleAVendreRepository {
     public ArticleAVendre findById(Long id);
 
     public void updateStatut(ArticleAVendre articleAVendre);
+
+    public int update(ArticleAVendre articleAVendre);
 }

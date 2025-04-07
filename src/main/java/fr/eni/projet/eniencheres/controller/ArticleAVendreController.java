@@ -96,11 +96,52 @@ public class ArticleAVendreController {
         return "article/sell";
     }
 
+    @PostMapping("{id}/sale/edit")
+    public String editSaleArticle(@PathVariable("id") Long id, Authentication authentication, @Valid @ModelAttribute("articleAvendre") ArticleAVendre articleAVendre, BindingResult bindingResult, Model model) {
+        // TODO: Handle 404 articleAVendre not found
+        // TODO: try to delete ducplicated code
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("articleAVendre", articleAVendre);
+            return "article/sell";
+        }
+
+        if (articleAVendre.getStatut() == StatutEnchere.ANNULEE) {
+            return "redirect:/";
+        }
+
+        if (!articleAVendre.getDateDebutEncheres().isAfter(LocalDate.now())) {
+            return "redirect:/";
+        }
+
+        try {
+            // TODO: maybe move this to service
+            ArticleAVendre originalArticleAVendre = articleAVendreService.getArticleAVendre(id);
+            if (!Objects.equals(authentication.getName(), originalArticleAVendre.getVendeur().getPseudo())) {
+                return "redirect:/";
+            }
+
+            articleAVendreService.update(articleAVendre);
+        } catch (BusinessException e) {
+            ObjectError error = new ObjectError("globalError", e.getMessage());
+            bindingResult.addError(error);
+            return "article/sell";
+        }
+
+        return "redirect:/";
+
+    }
+
     @PostMapping("{id}/sale/cancel")
     public String cancelSaleArticle(@PathVariable("id") Long id, Authentication authentication) {
         // TODO: Handle 404 articleAVendre not found
         // TODO: try to delete ducplicated code
         ArticleAVendre articleAVendre = articleAVendreService.getArticleAVendre(id);
+
+        if (articleAVendre.getStatut() == StatutEnchere.ANNULEE) {
+            return "redirect:/";
+        }
+
         if (!Objects.equals(authentication.getName(), articleAVendre.getVendeur().getPseudo())) {
             return "redirect:/";
         }
