@@ -1,9 +1,9 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
-      th:replace="~{layouts/layout :: layout(titrePage=${titre_enchere_details}, contenuPage=~{::main}, ressourcesSupp=~{})}"
+      th:replace="~{layouts/layout :: layout(titrePage=${titre_enchere_details}, contenuPage=~{::main}, ressourcesSupp=~{}, toast=${toast})}"
       lang="fr">
     <main>
-        <div class="container mx-auto mt-16" id="container_vente">
+        <div class="container mx-auto" id="container_vente">
             <div class="flex flex-row justify-around ring ring-blue-500/50 rounded-xl p-16" th:classappend="${vente_close ? 'opacity-30' : ''}" th:with="e=${enchere}">
 
                 <div class="flex flex-col">

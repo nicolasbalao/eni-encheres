@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
-      data-th-fragment="layout(titrePage, contenuPage, ressourcesSupp)" lang="fr">
+      data-th-fragment="layout(titrePage, contenuPage, ressourcesSupp, toast)" th:with="toast=${toast}" lang="fr">
 
 <head>
     <!--    <title data-th-replace="${titrePage}">Page Title</title>-->
@@ -14,9 +14,9 @@
 
 <body>
 <header data-th-replace="~{fragments/frag-header :: frag-header}"></header>
-<div class="w-full relative">
-    <h1 class="text-center text-2xl font-semibold" th:text="${titrePage}"></h1>
-    <div class="absolute top-0 right-2 border rounded-md border-black p-4  mr-4 right-0">
+<div class="w-full relative flex flex-row justify-center items-center mb-4">
+    <h1 class="text-center text-2xl font-semibold flex-grow-1" th:text="${titrePage}"></h1>
+    <div class="w-fit border rounded-md border-black p-4  mr-4 right-0">
         <div class="flex gap-4">
             <span>Date du jour: </span>
             <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}" class="text-end"></span>
@@ -27,8 +27,9 @@
         </div>
     </div>
 </div>
+<div th:if="${toast != null}" th:replace="~{fragments/frag-toast :: frag-toast(toast=${toast})}"></div>
 
-<main data-th-replace="${contenuPage}"></main>
+<main th:replace="${contenuPage}"></main>
 
 </body>
 
