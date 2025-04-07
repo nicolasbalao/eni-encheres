@@ -84,9 +84,9 @@ public class EnchereController {
         if (statut_enchere.equals(2) && enchere.getAcquereur().getPseudo().equals(userPseudo)) {
             titre_enchere_details = "Vous avez remporté la vente";
         } else if (statut_enchere.equals(2) && !enchere.getAcquereur().getPseudo().equals(userPseudo)) {
-            titre_enchere_details = enchere.getAcquereur().getPseudo() + " a remporté la vente";
+            titre_enchere_details = "<a class='text-blue-500 underline' href='/users/" +enchere.getAcquereur().getPseudo() + "/profile'> " + enchere.getAcquereur().getPseudo() + "</a> a remporté la vente";
         } else if (statut_enchere.equals(3) && !enchere.getAcquereur().getPseudo().equals(userPseudo)) {
-            titre_enchere_details = enchere.getAcquereur().getPseudo() + " a remporté la vente. La vente est livrée.";
+            titre_enchere_details = "<a class='text-blue-500 underline' href='/users/" +enchere.getAcquereur().getPseudo() + "/profile'> " + enchere.getAcquereur().getPseudo() + "</a> a remporté la vente. La vente est livrée.";
         } else {
             titre_enchere_details = "Détail d'une vente";
         }

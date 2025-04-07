@@ -15,7 +15,7 @@
 <body>
 <header data-th-replace="~{fragments/frag-header :: frag-header}"></header>
 <div class="w-full relative flex flex-row justify-center items-center mb-4">
-    <h1 class="text-center text-2xl font-semibold flex-grow-1" th:text="${titrePage}"></h1>
+    <h1 class="text-center text-2xl font-semibold flex-grow-1" th:utext="${titrePage}"></h1>
     <div class="w-fit border rounded-md border-black p-4  mr-4 right-0">
         <div class="flex gap-4">
             <span>Date du jour: </span>
