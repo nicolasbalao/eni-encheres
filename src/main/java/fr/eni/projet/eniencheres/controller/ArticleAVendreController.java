@@ -74,25 +74,32 @@ public class ArticleAVendreController {
 
     @GetMapping("{id}/sale")
     public String saleArticlePage(Model model, @PathVariable("id") Long id, Authentication authentication) {
-        // TODO: handle 404
-        ArticleAVendre articleAVendre = articleAVendreService.getArticleAVendre(id);
-        model.addAttribute("articleAVendre", articleAVendre);
 
-        // TODO: should process verifications here ? (Service ?)
-        if (articleAVendre.getStatut() == StatutEnchere.ANNULEE) {
+        ArticleAVendre article = articleAVendreService.getArticleAVendre(id);
+        if (article == null) {
+            // TODO: retourner une page 404 custom ou utiliser une exception
+            return "redirect:/404";
+        }
+
+        // Redirige vers l'accueil si l'enchère a été annulée
+        if (article.getStatut() == StatutEnchere.ANNULEE) {
             return "redirect:/";
         }
 
-        if (!Objects.equals(authentication.getName(), articleAVendre.getVendeur().getPseudo())) {
-            // TODO: redirect to the sale details for public
-            return "redirect:/";
+        String currentUser = authentication.getName();
+        String vendeur = article.getVendeur().getPseudo();
+
+        // Si l'utilisateur n'est pas le vendeur, rediriger vers la fiche publique
+        if (!Objects.equals(currentUser, vendeur)) {
+            return redirectToPublicSale(id);
         }
 
-        if (!articleAVendre.getDateDebutEncheres().isAfter(LocalDate.now())) {
-            // TODO: redirect to the sale details wihtout modification
-            return "redirect:/";
+        // Si l'enchère a déjà commencé, redirection vers vue non modifiable
+        if (hasSaleAlreadyStarted(article)) {
+            return redirectToPublicSale(id);
         }
 
+        model.addAttribute("articleAVendre", article);
         return "article/sell";
     }
 
@@ -110,7 +117,7 @@ public class ArticleAVendreController {
             return "redirect:/";
         }
 
-        if (!articleAVendre.getDateDebutEncheres().isAfter(LocalDate.now())) {
+        if (!articleAVendre.getDateDebutEncheres().isAfter(LocalDate.now()) && articleAVendre.getStatut() == StatutEnchere.EN_COURS) {
             return "redirect:/";
         }
 
@@ -154,6 +161,15 @@ public class ArticleAVendreController {
 
         return "redirect:/";
 
+    }
+
+    private String redirectToPublicSale(Long id) {
+        return "redirect:/encheres/" + id;
+    }
+
+    private boolean hasSaleAlreadyStarted(ArticleAVendre article) {
+        return !article.getDateDebutEncheres().isAfter(LocalDate.now())
+                && article.getStatut() == StatutEnchere.EN_COURS;
     }
 
 

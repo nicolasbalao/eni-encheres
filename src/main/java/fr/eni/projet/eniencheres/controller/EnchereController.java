@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -22,10 +21,10 @@ public class EnchereController {
         this.encheresService = encheresService;
     }
 
-    @GetMapping("/enchere/{id}")
+    @GetMapping("/encheres/{id}")
     public String EnchereDetails(Model model, @PathVariable("id") Long id, Authentication auth) {
         Enchere enchere = encheresService.consulterEnchere(id);
-        if(enchere == null) {
+        if (enchere == null) {
             return "redirect:/";
         }
 
@@ -45,12 +44,11 @@ public class EnchereController {
 
             Toast toastSucess = ToastController.showToast(Toast.statut.SUCCESS, "Retrait correctement éffectué.");
             redirectAttributes.addFlashAttribute("toast", toastSucess);
-            return "redirect:/enchere/"+id;
-        }
-        catch (Exception e) {
+            return "redirect:/encheres/" + id;
+        } catch (Exception e) {
             Toast toastError = ToastController.showToast(Toast.statut.DANGER, e.getMessage());
             redirectAttributes.addFlashAttribute("toast", toastError);
-            return "redirect:/enchere/"+id;
+            return "redirect:/encheres/" + id;
         }
     }
 
@@ -66,12 +64,11 @@ public class EnchereController {
 
             Toast toastSucess = ToastController.showToast(Toast.statut.SUCCESS, "Votre enchère à bien été prise en compte.");
             redirectAttributes.addFlashAttribute("toast", toastSucess);
-            return "redirect:/enchere/"+idArticle;
-        }
-        catch (Exception e) {
+            return "redirect:/encheres/" + idArticle;
+        } catch (Exception e) {
             Toast toastError = ToastController.showToast(Toast.statut.DANGER, e.getMessage());
             redirectAttributes.addFlashAttribute("toast", toastError);
-            return "redirect:/enchere/"+idArticle;
+            return "redirect:/encheres/" + idArticle;
         }
 
     }
