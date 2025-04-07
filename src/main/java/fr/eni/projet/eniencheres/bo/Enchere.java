@@ -5,11 +5,11 @@ import java.util.Objects;
 
 public class Enchere {
     private LocalDate date;
-    private Number montant;
+    private int montant;
     private Utilisateur acquereur;
     private ArticleAVendre articleAVendre;
 
-    public Enchere(LocalDate date, Number montant, ArticleAVendre articleAVendre) {
+    public Enchere(LocalDate date, int montant, ArticleAVendre articleAVendre) {
         this.date = date;
         this.montant = montant;
         this.articleAVendre = articleAVendre;
@@ -26,11 +26,11 @@ public class Enchere {
         this.date = date;
     }
 
-    public Number getMontant() {
+    public int getMontant() {
         return montant;
     }
 
-    public void setMontant(Number montant) {
+    public void setMontant(int montant) {
         this.montant = montant;
     }
 
