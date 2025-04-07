@@ -46,4 +46,23 @@ public class ArticleAVendreSerivceImpl implements ArticleAVendreService {
 
         articleAVendreRepository.insert(articleAVendre);
     }
+
+    @Override
+    public ArticleAVendre getArticleAVendre(Long id) {
+        ArticleAVendre articleAVendre = articleAVendreRepository.findById(id);
+
+        if (articleAVendre == null) {
+            throw new BusinessException("article.get.articleAVendre.notFound");
+        }
+
+        return articleAVendre;
+    }
+
+    @Override
+    public void cancel(ArticleAVendre articleAVendre) {
+        articleAVendre.setStatut(StatutEnchere.ANNULEE);
+        articleAVendreRepository.updateStatut(articleAVendre);
+    }
+
+
 }

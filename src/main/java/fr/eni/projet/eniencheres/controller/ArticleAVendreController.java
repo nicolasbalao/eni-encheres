@@ -1,10 +1,7 @@
 package fr.eni.projet.eniencheres.controller;
 
 import fr.eni.projet.eniencheres.bll.articleAVendre.ArticleAVendreService;
-import fr.eni.projet.eniencheres.bo.Adresse;
-import fr.eni.projet.eniencheres.bo.ArticleAVendre;
-import fr.eni.projet.eniencheres.bo.Categorie;
-import fr.eni.projet.eniencheres.bo.Utilisateur;
+import fr.eni.projet.eniencheres.bo.*;
 import fr.eni.projet.eniencheres.dal.adresse.AdresseRepository;
 import fr.eni.projet.eniencheres.dal.categorie.CategorieRepository;
 import fr.eni.projet.eniencheres.exception.BusinessException;
@@ -14,15 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
 
 @Controller
 @RequestMapping("/articles")
@@ -79,4 +71,49 @@ public class ArticleAVendreController {
 
         return "redirect:/";
     }
+
+    @GetMapping("{id}/sale")
+    public String saleArticlePage(Model model, @PathVariable("id") Long id, Authentication authentication) {
+        // TODO: handle 404
+        ArticleAVendre articleAVendre = articleAVendreService.getArticleAVendre(id);
+        model.addAttribute("articleAVendre", articleAVendre);
+
+        // TODO: should process verifications here ? (Service ?)
+        if (articleAVendre.getStatut() == StatutEnchere.ANNULEE) {
+            return "redirect:/";
+        }
+
+        if (!Objects.equals(authentication.getName(), articleAVendre.getVendeur().getPseudo())) {
+            // TODO: redirect to the sale details for public
+            return "redirect:/";
+        }
+
+        if (!articleAVendre.getDateDebutEncheres().isAfter(LocalDate.now())) {
+            // TODO: redirect to the sale details wihtout modification
+            return "redirect:/";
+        }
+
+        return "article/sell";
+    }
+
+    @PostMapping("{id}/sale/cancel")
+    public String cancelSaleArticle(@PathVariable("id") Long id, Authentication authentication) {
+        // TODO: Handle 404 articleAVendre not found
+        // TODO: try to delete ducplicated code
+        ArticleAVendre articleAVendre = articleAVendreService.getArticleAVendre(id);
+        if (!Objects.equals(authentication.getName(), articleAVendre.getVendeur().getPseudo())) {
+            return "redirect:/";
+        }
+
+        if (!articleAVendre.getDateDebutEncheres().isAfter(LocalDate.now())) {
+            return "redirect:/";
+        }
+
+        articleAVendreService.cancel(articleAVendre);
+
+        return "redirect:/";
+
+    }
+
+
 }
