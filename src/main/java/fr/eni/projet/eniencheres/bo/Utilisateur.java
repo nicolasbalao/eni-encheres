@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class Utilisateur {
     @NotBlank
-    @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "Le pseudo ne doit contenir que des caractères alphanumériques et des underscores.")
+    @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "register.form.error.pseudo")
     @Size(min = 2, max = 30)
     private String pseudo;
 
