@@ -96,21 +96,12 @@ public class ArticleAVendreController {
             return "redirect:/";
         }
 
-        String currentUser = authentication.getName();
-        String vendeur = article.getVendeur().getPseudo();
-
-        // Si l'utilisateur n'est pas le vendeur, rediriger vers la fiche publique
-        if (!Objects.equals(currentUser, vendeur)) {
+        if (!canEditArticle(article)) {
             return redirectToPublicSale(id);
         }
-
-        // Si l'enchère a déjà commencé, redirection vers vue non modifiable
-        if (hasSaleAlreadyStarted(article)) {
-            return redirectToPublicSale(id);
-        }
-
         model.addAttribute("articleAVendre", article);
         return "article/sell";
+
     }
 
     @PostMapping("{id}/sale/edit")
@@ -123,12 +114,8 @@ public class ArticleAVendreController {
             return "article/sell";
         }
 
-        if (articleAVendre.getStatut() == StatutEnchere.ANNULEE) {
-            return "redirect:/";
-        }
-
-        if (hasSaleAlreadyStarted(articleAVendre)) {
-            return "redirect:/";
+        if (!canEditArticle(articleAVendre)) {
+            return redirectToPublicSale(id);
         }
 
         try {
@@ -146,7 +133,6 @@ public class ArticleAVendreController {
         }
 
         return "redirect:/";
-
     }
 
     @PostMapping("{id}/sale/cancel")
@@ -163,8 +149,8 @@ public class ArticleAVendreController {
             return "redirect:/";
         }
 
-        if (hasSaleAlreadyStarted(articleAVendre)) {
-            return "redirect:/";
+        if (!canEditArticle(articleAVendre)) {
+            return redirectToPublicSale(id);
         }
 
         articleAVendreService.cancel(articleAVendre);
@@ -177,9 +163,8 @@ public class ArticleAVendreController {
         return "redirect:/encheres/" + id;
     }
 
-    private boolean hasSaleAlreadyStarted(ArticleAVendre article) {
-        return !article.getDateDebutEncheres().isAfter(LocalDate.now())
-                && article.getStatut() == StatutEnchere.EN_COURS;
+    private boolean canEditArticle(ArticleAVendre article) {
+        return article.getDateDebutEncheres().isAfter(LocalDate.now()) && article.getStatut() == StatutEnchere.NON_COMMENCEE;
     }
 
 
