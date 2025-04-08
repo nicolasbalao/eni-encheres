@@ -174,7 +174,7 @@ public class ArticleAVendreController {
     }
 
     private String redirectToPublicSale(Long id) {
-        return "redirect:/enchere/" + id;
+        return "redirect:/encheres/" + id;
     }
 
     private boolean hasSaleAlreadyStarted(ArticleAVendre article) {
