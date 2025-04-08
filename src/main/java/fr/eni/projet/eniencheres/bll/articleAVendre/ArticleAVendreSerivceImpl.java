@@ -7,20 +7,24 @@ import fr.eni.projet.eniencheres.dal.adresse.AdresseRepository;
 import fr.eni.projet.eniencheres.dal.articleAVendre.ArticleAVendreRepository;
 import fr.eni.projet.eniencheres.dal.categorie.CategorieRepository;
 import fr.eni.projet.eniencheres.exception.BusinessException;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 @Service
 public class ArticleAVendreSerivceImpl implements ArticleAVendreService {
     private final ArticleAVendreRepository articleAVendreRepository;
     private final AdresseRepository adresseRepository;
     private final CategorieRepository categorieRepository;
+    private final Environment environment;
 
-    public ArticleAVendreSerivceImpl(ArticleAVendreRepository articleAVendreRepository, AdresseRepository adresseRepository, CategorieRepository categorieRepository) {
+    public ArticleAVendreSerivceImpl(ArticleAVendreRepository articleAVendreRepository, AdresseRepository adresseRepository, CategorieRepository categorieRepository, Environment environment) {
         this.articleAVendreRepository = articleAVendreRepository;
         this.adresseRepository = adresseRepository;
         this.categorieRepository = categorieRepository;
+        this.environment = environment;
     }
 
     @Override
@@ -85,6 +89,10 @@ public class ArticleAVendreSerivceImpl implements ArticleAVendreService {
             throw new BusinessException("article.sell.notFound");
         }
 
+        // Dev only
+        if (Arrays.asList(environment.getActiveProfiles()).contains("dev")) {
+            articleAVendreRepository.updateStatut(articleAVendre);
+        }
     }
 
 

@@ -6,6 +6,7 @@ import fr.eni.projet.eniencheres.dal.adresse.AdresseRepository;
 import fr.eni.projet.eniencheres.dal.categorie.CategorieRepository;
 import fr.eni.projet.eniencheres.exception.BusinessException;
 import jakarta.validation.Valid;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,11 +24,13 @@ public class ArticleAVendreController {
     private final CategorieRepository categorieRepository;
     private final AdresseRepository adresseRepository;
     private final ArticleAVendreService articleAVendreService;
+    private final Environment environment;
 
-    public ArticleAVendreController(final CategorieRepository categorieRepository, AdresseRepository adresseRepository, ArticleAVendreService articleAVendreService) {
+    public ArticleAVendreController(final CategorieRepository categorieRepository, AdresseRepository adresseRepository, ArticleAVendreService articleAVendreService, Environment environment) {
         this.categorieRepository = categorieRepository;
         this.adresseRepository = adresseRepository;
         this.articleAVendreService = articleAVendreService;
+        this.environment = environment;
     }
 
     @ModelAttribute("categories")
@@ -35,7 +38,6 @@ public class ArticleAVendreController {
         return this.categorieRepository.getCategories();
     }
 
-    // TODO: Add user adresse to
     @ModelAttribute("adresses")
     public List<Adresse> adresses(Authentication authentication) {
         List<Adresse> eniAdresses = this.adresseRepository.findEniAdresse();
@@ -44,6 +46,14 @@ public class ArticleAVendreController {
         Set<Adresse> adresses = new HashSet<>(eniAdresses);
         adresses.add(userAdresse);
         return new ArrayList<>(adresses);
+    }
+
+    @ModelAttribute("enchereStatus")
+    public StatutEnchere[] enchereStatus() {
+        if (!Arrays.asList(environment.getActiveProfiles()).contains("dev")) {
+            return null;
+        }
+        return StatutEnchere.values();
     }
 
     @GetMapping("/sell")
@@ -117,7 +127,7 @@ public class ArticleAVendreController {
             return "redirect:/";
         }
 
-        if (!articleAVendre.getDateDebutEncheres().isAfter(LocalDate.now()) && articleAVendre.getStatut() == StatutEnchere.EN_COURS) {
+        if (hasSaleAlreadyStarted(articleAVendre)) {
             return "redirect:/";
         }
 
@@ -153,7 +163,7 @@ public class ArticleAVendreController {
             return "redirect:/";
         }
 
-        if (!articleAVendre.getDateDebutEncheres().isAfter(LocalDate.now())) {
+        if (hasSaleAlreadyStarted(articleAVendre)) {
             return "redirect:/";
         }
 

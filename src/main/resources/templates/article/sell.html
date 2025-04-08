@@ -81,6 +81,13 @@
                         <div data-th-replace="~{fragments/errors/frag-error :: frag-error('dateFinEncheres')}">
                         </div>
 
+                        <th:block th:if="${enchereStatus}">
+                            <label for="statut" class="block text-sm font-medium text-gray-600 w-1/3">Status: </label>
+                            <select id="statut" th:field="*{statut}">
+                                <option th:each="statut : ${enchereStatus}" th:value="${statut}"
+                                        th:text="${statut.description}"></option>
+                            </select>
+                        </th:block>
                     </div>
                 </div>
 
