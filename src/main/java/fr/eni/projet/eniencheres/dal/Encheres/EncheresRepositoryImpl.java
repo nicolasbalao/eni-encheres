@@ -5,6 +5,7 @@ import fr.eni.projet.eniencheres.bo.StatutEnchere;
 import fr.eni.projet.eniencheres.bo.Utilisateur;
 import fr.eni.projet.eniencheres.dal.utilisateur.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -82,9 +83,9 @@ public class EncheresRepositoryImpl implements EncheresRepository {
             Utilisateur acheteur = utilisateurRepository.profileByPseudo(pseudoAcheteur);
 
             if (acheteur.getCredit() < montant) {
-                throw new IllegalArgumentException("Crédit insuffisant de l'acheteur pour effectuer la transaction.");
+                throw new IllegalArgumentException("enchereDetails.response.delivery.not.enough.credit");
             } else if (montant < enchere.getMontant()) {
-                throw new IllegalArgumentException("Crédit inférieur a l'offre la plus haute.");
+                throw new IllegalArgumentException("enchereDetails.response.delivery.amount.too.low");
             }
 
             // on crée l'enchère
@@ -124,7 +125,7 @@ public class EncheresRepositoryImpl implements EncheresRepository {
         Enchere enchere = find(id);
         if (enchere != null) {
             if (enchere.getArticleAVendre().getStatut() != StatutEnchere.CLOTUREE) {
-                throw new IllegalArgumentException("Il semblerait que le vente n'est pas en statut cloturé.");
+                throw new IllegalArgumentException("enchereDetails.response.buy.bad.status");
             }
 
             // on récupère le vendeur

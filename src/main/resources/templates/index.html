@@ -9,7 +9,7 @@
 
             <!-- Filtres -->
             <form class="p-4 flex flex-col gap-4 mt-6" method="POST" th:action="@{/}">
-                <label class="text-1xl font-semibold" for="searchBar">Filtres</label>
+                <label class="text-1xl font-semibold" for="searchBar" th:text="#{filter.searchBar.label}"></label>
                 <div class="flex flex-row gap-6">
                     <div class="flex flex-col w-fit gap-4">
                         <div class="flex flex-col gap-4 w-[350px]">
@@ -24,79 +24,61 @@
                                 </div>
                                 <input name="searchBar" type="text" id="searchBar"
                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 "
-                                       placeholder="Le nom de l'article contient">
+                                       th:placeholder="#{filter.searchBar.placeholder}">
                             </div>
                         </div>
                         <div class="flex flex-row justify-between items-center">
-                            <label class="text-1xl font-semibold" for="categorySelect">Catégorie</label>
-                            <select name="category" id="categorySelect"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5">
-                                <option value="" selected>Toutes</option>
-                                <option value="Informatique">Informatique</option>
-                                <option value="Ameublement">Ameublement</option>
-                                <option value="Sport&Loisir">Sport et Loisir</option>
-                                <option value="Vêtement">Vêtement</option>
+                            <label class="text-1xl font-semibold" for="categorySelect" th:text="#{filter.category.select.label}"></label>
+                            <select name="category" id="categorySelect" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5">
+                                <option value="" selected th:text="#{filter.category.select.all}"></option>
+                                <option value="Informatique" th:text="#{filter.category.select.computing}"></option>
+                                <option value="Ameublement" th:text="#{filter.category.select.furniture}"></option>
+                                <option value="Sport&Loisir" th:text="#{filter.category.select.sport}"></option>
+                                <option value="Vêtement" th:text="#{filter.category.select.garment}"></option>
                             </select>
                         </div>
                     </div>
                     <div sec:authorize="!isAuthenticated()" class="flex flex-col gap-4 justify-center">
-                        <button th:type="button" onclick="applyFilter()" type="button"
-                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2">
-                            Rechercher
-                        </button>
-                        <button th:type="button" onclick="resetFilter()" type="button"
-                                class="py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">
-                            Anuler
-                        </button>
+                        <button th:type="button" onclick="applyFilter()" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2" th:text="#{filter.searchBar.button}"></button>
+                        <button th:type="button" onclick="resetFilter()" type="button" class="py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100" th:text="#{filter.searchBar.button.cancel}"></button>
                     </div>
                     <div sec:authorize="isAuthenticated()" class="flex flex-col gap-4 justify-center">
-                        <button th:type="submit"
-                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2">
-                            Rechercher
-                        </button>
-                        <button th:type="submit"
-                                class="py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">
-                            Anuler
-                        </button>
+                        <button th:type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2" th:text="#{filter.searchBar.button}"></button>
+                        <button th:type="submit" class="py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100" th:text="#{filter.searchBar.button.cancel}"></button>
                     </div>
                 </div>
-
                 <div sec:authorize="isAuthenticated()" class="flex flex-row gap-6">
                     <div class="flex flex-col gap-2">
                         <div class="flex flex-row gap-1">
-                            <input value="true" checked onchange="toogleTypeChoise(true)" type="radio"
-                                   id="achatCheckBox" name="typeChoix"/>
-                            <label for="achatCheckBox">Achats</label>
+
+                            <input value="true" checked onchange="toogleTypeChoise(true)" type="radio" id="achatCheckBox" name="typeChoix"/>
+                            <label for="achatCheckBox" th:text="#{filter.radio.buy}"></label>
                         </div>
                         <div>
-                            <select name="achatSelect" id="achatSelect"
-                                    class="disabled:opacity-70 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5">
-                                <option value="4" selected>Enchères ouvertes</option>
-                                <option value="1">Mes enchères en cours</option>
-                                <option value="2">Mes enchères remportées</option>
-                                <option value="3">Mes enchères remportées livrées</option>
+                            <select name="achatSelect" id="achatSelect" class="disabled:opacity-70 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5">
+                                <option value="4" selected th:text="#{filter.buy.status4}"></option>
+                                <option value="1" th:text="#{filter.buy.status1}"></option>
+                                <option value="2" th:text="#{filter.buy.status2}"></option>
+                                <option value="3" th:text="#{filter.buy.status3}"></option>
                             </select>
                         </div>
                     </div>
                     <div class="flex flex-col gap-2">
                         <div class="flex flex-row gap-1">
-                            <input value="false" onchange="toogleTypeChoise(false)" type="radio" id="venteCheckBox"
-                                   name="typeChoix"/>
-                            <label for="venteCheckBox">Ventes</label>
+                            <input value="false" onchange="toogleTypeChoise(false)" type="radio" id="venteCheckBox" name="typeChoix"/>
+                            <label for="venteCheckBox" th:text="#{filter.radio.sell}"></label>
                         </div>
                         <div>
-                            <select disabled name="venteSelect" id="venteSelect"
-                                    class="disabled:opacity-70 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5">
-                                <option value="0">Mes ventes non débutées</option>
-                                <option value="1" selected>Mes ventes en cours</option>
-                                <option value="2">Mes ventes terminées</option>
-                                <option value="3">Mes ventes remportées livrées</option>
+                            <select disabled name="venteSelect" id="venteSelect" class="disabled:opacity-70 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5">
+                                <option value="1" selected th:text="#{filter.sell.status1}"></option>
+                                <option value="0" th:text="#{filter.sell.status0}"></option>
+                                <option value="2" th:text="#{filter.sell.status2}"></option>
+                                <option value="3" th:text="#{filter.sell.status3}"></option>
                             </select>
                         </div>
                     </div>
                 </div>
             </form>
-
 
             <!-- Vignettes enchères -->
             <div class="flex flex-row gap-6 flex-wrap p-4 mt-14">
@@ -120,17 +102,17 @@
                             </div>
                             <div class="flex flex-col gap-1 px-2">
                                 <div class="flex flex-row gap-1">
-                                    <p class="text-sm font-medium">Prix:</p>
+                                    <p class="text-sm font-medium" th:text="#{vignetteEnchere.price}">:</p>
                                     <p class="text-sm enchere-montant" th:text="${enchere.montant} + ' point(s)'"></p>
                                 </div>
                                 <div class="flex flex-row gap-1">
-                                    <p class="text-sm font-medium">Fin de l'enchère : </p>
+                                    <p class="text-sm font-medium" th:text="#{vignetteEnchere.dateEnd}"></p>
                                     <p class="text-sm enchere-date"
                                        th:text="${enchere.articleAVendre.dateFinEncheres}"></p>
                                 </div>
                                 <div class="flex flex-row gap-1">
-                                    <p class="text-sm font-medium">Vendeur : </p>
-                                    <a th:href="@{/users/{pseudo}/profile(pseudo=${enchere.articleAVendre.vendeur.pseudo})}"
+                                    <p class="text-sm font-medium" th:text="#{vignetteEnchere.seller}"></p>
+                                    <a th:href="@{'/users/' + ${enchere.articleAVendre.vendeur.pseudo} + '/profile'}"
                                        class="text-sm enchere-vendeur underline text-blue-500"
                                        th:text="${enchere.articleAVendre.vendeur.pseudo}"/>
                                 </div>
