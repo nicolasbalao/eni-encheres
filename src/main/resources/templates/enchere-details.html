@@ -4,25 +4,25 @@
       lang="fr">
 <main>
     <div class="container mx-auto" id="container_vente">
-        <div class="flex flex-row justify-around ring ring-blue-500/50 rounded-xl p-16"
+        <div class="flex flex-col-reverse xl:flex-row justify-center xl:justify-around xl:ring xl:ring-blue-500/50 rounded-xl p-16"
              th:classappend="${vente_close ? 'opacity-30' : ''}" th:with="e=${enchere}">
 
-            <div class="flex flex-col">
-                <div class="flex flex-row gap-4 p-4 items-center">
+            <div class="flex flex-col items-center w-full xl:w-fit">
+                <div class="flex flex-col md:min-w-[600px] w-fit md:flex-row gap-4 p-4 items-center">
                     <label for="article_nom" class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white" th:text="#{enchereDetails.product}">
                         :</label>
                     <input type="text" disabled id="article_nom"
                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5"
                            th:value="${e.articleAVendre.nom}"/>
                 </div>
-                <div class="flex flex-row gap-4 p-4 items-center">
+                <div class="flex flex-col md:min-w-[600px] w-fit md:flex-row gap-4 p-4 items-center">
                     <label for="article_categorie"
                            class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white" th:text="#{enchereDetails.category}"></label>
                     <input type="text" disabled id="article_categorie"
                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5"
                            th:value="${e.articleAVendre.categorie.libelle}"/>
                 </div>
-                <div class="flex flex-row gap-4 p-4 items-center">
+                <div class="flex flex-col md:min-w-[600px] w-fit md:flex-row gap-4 p-4 items-center">
                     <label for="article_description"
                            class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white" th:text="#{enchereDetails.summary}">
                         :</label>
@@ -30,14 +30,14 @@
                               class="min-h-40 max-h-fit p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-[300px]"
                               th:text="${e.articleAVendre.description}"></textarea>
                 </div>
-                <div class="flex flex-row gap-4 p-4 items-center">
+                <div class="flex flex-col md:min-w-[600px] w-fit md:flex-row gap-4 p-4 items-center">
                     <label for="article_retrait"
                            class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white" th:text="#{enchereDetails.address}"></label>
                     <input type="text" disabled id="article_retrait"
-                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block min-w-[450px]  p-2.5"
+                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block min-w-[400px]  p-2.5"
                            th:value="${e.articleAVendre.retrait}"/>
                 </div>
-                <div class="flex flex-row gap-4 p-4 items-center">
+                <div class="flex flex-col md:min-w-[600px] w-fit md:flex-row gap-4 p-4 items-center">
                     <label for="article_vendeur"
                            class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white" th:text="#{enchereDetails.seller}"></label>
                     <!-- Si c'est notre enchère -->
@@ -53,7 +53,7 @@
                 <!-- Si c'est pas notre enchère et qu'elle est en cours -->
                 <form action="/encherir" method="post"
                       th:if="${#authentication.name != enchere.articleAVendre.vendeur.pseudo && enchere.articleAVendre.statut.getCode() == 1}"
-                      class="flex flex-row gap-4 p-4 items-center">
+                      class="flex flex-col md:min-w-[600px] w-fit md:flex-row gap-4 p-4 items-center">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                     <input type="hidden" name="idArticle" th:value="${e.articleAVendre.id}"/>
                     <label for="article_enchere"
@@ -68,7 +68,7 @@
                 </form>
                 <!-- Si c'est notre enchère et qu'elle est terminée -->
                 <div th:if="${#authentication.name == enchere.articleAVendre.vendeur.pseudo && enchere.articleAVendre.statut.getCode() == 2 }"
-                     class="flex flex-row gap-4 p-4 items-center">
+                     class="flex flex-col md:min-w-[600px] w-fit md:flex-row gap-4 p-4 items-center">
                     <form action="/clotureEnchere" method="post">
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                         <input type="hidden" name="id" th:value="${e.articleAVendre.id}">
@@ -77,15 +77,15 @@
                         </button>
                     </form>
                 </div>
-                <div class="flex flex-row gap-4 p-4 items-center">
+                <div class="flex flex-col md:min-w-[600px] w-fit md:flex-row gap-4 p-4 items-center">
                     <button th:type="button" onclick="window.location.href='/'" type="button"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-md px-8 py-3 me-2" th:text="#{enchereDetails.button.back}">
                     </button>
                 </div>
             </div>
 
-            <div class="flex flex-col">
-                <div class="flex flex-row gap-4 p-4 items-center">
+            <div class="flex flex-col items-center w-full xl:w-fit">
+                <div class="flex flex-col md:min-w-[600px] w-fit md:flex-row gap-4 p-4 items-center">
                     <label for="article_prix_initial"
                            class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white" th:text="#{enchereDetails.initPrice}">
                         :</label>
@@ -93,7 +93,7 @@
                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5"
                            th:value="${e.articleAVendre.prixInitial}"/>
                 </div>
-                <div class="flex flex-row gap-4 p-4 items-center">
+                <div class="flex flex-col md:min-w-[600px] w-fit md:flex-row gap-4 p-4 items-center">
                     <label for="article_meilleur_prix"
                            class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white" th:text="#{enchereDetails.bestPrise}">
                         :</label>
@@ -101,7 +101,7 @@
                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5"
                            th:value="${e.montant}"/>
                 </div>
-                <div class="flex flex-row gap-4 p-4 items-center">
+                <div class="flex flex-col md:min-w-[600px] w-fit md:flex-row gap-4 p-4 items-center">
                     <label for="article_date_fin_enchere"
                            class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white" th:text="#{enchereDetails.dateEnd}">
                         :</label>
