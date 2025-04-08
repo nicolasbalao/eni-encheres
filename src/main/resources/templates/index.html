@@ -47,7 +47,7 @@
                         <button th:type="submit" class="py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100" th:text="#{filter.searchBar.button.cancel}"></button>
                     </div>
                 </div>
-                <div sec:authorize="isAuthenticated()" class="flex flex-row gap-6">
+                <div sec:authorize="isAuthenticated()" class="flex flex-col md:flex-row gap-6">
                     <div class="flex flex-col gap-2">
                         <div class="flex flex-row gap-1">
 
@@ -81,7 +81,7 @@
             </form>
 
             <!-- Vignettes enchères -->
-            <div class="flex flex-row gap-6 flex-wrap p-4 mt-14">
+            <div class="flex flex-row gap-6 flex-wrap p-4 mt-14 justify-center md:justify-start">
 
                 <!-- Vignette -->
                 <div th:each="enchere : ${encheres}"
