@@ -49,9 +49,9 @@ public class EnchereController {
             model.addAttribute("vente_close", true);
 
             Toast toastSucess = ToastController.showToast(Toast.statut.SUCCESS, messageSource.getMessage("enchereDetails.response.delivery.ok", null, locale));
-            redirectAttributes.addFlashAttribute("toast", toastSucess);
+            model.addAttribute("toast", toastSucess);
 
-            return "redirect:/encheres/" + id;
+            return "enchere-details";
         } catch (Exception e) {
             Toast toastError = ToastController.showToast(Toast.statut.DANGER, messageSource.getMessage(e.getMessage(), null, locale));
             redirectAttributes.addFlashAttribute("toast", toastError);
