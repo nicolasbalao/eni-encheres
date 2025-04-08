@@ -105,9 +105,9 @@
                     <label for="article_date_fin_enchere"
                            class="block ext-sm font-medium text-gray-900 w-[150px] dark:text-white" th:text="#{enchereDetails.dateEnd}">
                         :</label>
-                    <input type="text" disabled id="article_date_fin_enchere"
+                    <input type="date" disabled id="article_date_fin_enchere"
                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5"
-                           th:value="${e.articleAVendre.dateFinEncheres}"/>
+                           th:value="${{e.articleAVendre.dateFinEncheres}}"/>
                 </div>
             </div>
 

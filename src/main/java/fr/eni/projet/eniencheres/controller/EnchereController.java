@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Locale;
@@ -31,7 +30,7 @@ public class EnchereController {
     @GetMapping("/enchere/{id}")
     public String EnchereDetails(Model model, @PathVariable("id") Long id, Authentication auth, Locale locale) {
         Enchere enchere = encheresService.consulterEnchere(id);
-        if(enchere == null) {
+        if (enchere == null) {
             return "redirect:/";
         }
 
@@ -51,12 +50,13 @@ public class EnchereController {
 
             Toast toastSucess = ToastController.showToast(Toast.statut.SUCCESS, messageSource.getMessage("enchereDetails.response.delivery.ok", null, locale));
             redirectAttributes.addFlashAttribute("toast", toastSucess);
+
             return "redirect:/enchere/"+id;
         }
         catch (Exception e) {
             Toast toastError = ToastController.showToast(Toast.statut.DANGER, messageSource.getMessage(e.getMessage(), null, locale));
             redirectAttributes.addFlashAttribute("toast", toastError);
-            return "redirect:/enchere/"+id;
+            return "redirect:/encheres/" + id;
         }
     }
 
@@ -72,12 +72,14 @@ public class EnchereController {
 
             Toast toastSucess = ToastController.showToast(Toast.statut.SUCCESS, messageSource.getMessage("enchereDetails.response.buy.ok", null, locale));
             redirectAttributes.addFlashAttribute("toast", toastSucess);
+
             return "redirect:/enchere/"+idArticle;
         }
         catch (Exception e) {
             Toast toastError = ToastController.showToast(Toast.statut.DANGER, messageSource.getMessage(e.getMessage(), null, locale));
+
             redirectAttributes.addFlashAttribute("toast", toastError);
-            return "redirect:/enchere/"+idArticle;
+            return "redirect:/encheres/" + idArticle;
         }
 
     }

@@ -1,5 +1,5 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org"
-      data-th-replace="~{layouts/layout :: layout(titrePage='Nouvelle vente', contenuPage=~{:: main}, ressourcesSupp=~{})}">
+      data-th-replace="~{layouts/layout :: layout(titrePage='Nouvelle vente', contenuPage=~{:: main}, ressourcesSupp=~{}, toast=~{null})}">
 
 <head>
     <meta charset="UTF-8">
@@ -16,7 +16,7 @@
                 <div data-th-replace="~{fragments/errors/frag-errors :: frag-errors}"
                      class="text-red-500 text-sm mb-4">
                 </div>
-                
+
                 <div class="flex justify-between items-center w-full gap-8">
                     <div class="flex gap-4 items-center w-1/2">
                         <label for="name" class="block text-sm font-medium text-gray-600 w-1/3">Article (*):
@@ -81,6 +81,13 @@
                         <div data-th-replace="~{fragments/errors/frag-error :: frag-error('dateFinEncheres')}">
                         </div>
 
+                        <th:block th:if="${enchereStatus}">
+                            <label for="statut" class="block text-sm font-medium text-gray-600 w-1/3">Status: </label>
+                            <select id="statut" th:field="*{statut}">
+                                <option th:each="statut : ${enchereStatus}" th:value="${statut}"
+                                        th:text="${statut.description}"></option>
+                            </select>
+                        </th:block>
                     </div>
                 </div>
 

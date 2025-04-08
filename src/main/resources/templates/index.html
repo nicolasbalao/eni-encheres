@@ -47,10 +47,10 @@
                         <button th:type="submit" class="py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100" th:text="#{filter.searchBar.button.cancel}"></button>
                     </div>
                 </div>
-
                 <div sec:authorize="isAuthenticated()" class="flex flex-row gap-6">
                     <div class="flex flex-col gap-2">
                         <div class="flex flex-row gap-1">
+
                             <input value="true" checked onchange="toogleTypeChoise(true)" type="radio" id="achatCheckBox" name="typeChoix"/>
                             <label for="achatCheckBox" th:text="#{filter.radio.buy}"></label>
                         </div>
@@ -80,7 +80,6 @@
                 </div>
             </form>
 
-
             <!-- Vignettes enchères -->
             <div class="flex flex-row gap-6 flex-wrap p-4 mt-14">
 
@@ -94,8 +93,12 @@
                         </div>
                         <div class="flex flex-col">
                             <div class="flex mb-3">
-                                <h3 sec:authorize="!isAuthenticated()" class="font-semibold enchere-titre" th:text="${enchere.articleAVendre.nom}"></h3>
-                                <a th:href="${'/enchere/'+enchere.articleAVendre.id}" sec:authorize="isAuthenticated()" class="text-blue-500 underline font-semibold enchere-titre" th:text="${enchere.articleAVendre.nom}"></a>
+                                <h3 sec:authorize="!isAuthenticated()" class="font-semibold enchere-titre"
+                                    th:text="${enchere.articleAVendre.nom}"></h3>
+                                <a th:href="@{/articles/{id}/sale(id=${enchere.articleAVendre.id})}"
+                                   sec:authorize="isAuthenticated()"
+                                   class="text-blue-500 underline font-semibold enchere-titre"
+                                   th:text="${enchere.articleAVendre.nom}"></a>
                             </div>
                             <div class="flex flex-col gap-1 px-2">
                                 <div class="flex flex-row gap-1">
