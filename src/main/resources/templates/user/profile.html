@@ -19,25 +19,27 @@
 
             <div class="mb-2 w-full">
                 <div class="flex items-center justify-between">
-                    <span>Prénom: </span>
-                    <span th:text="${profile.prenom}"></span>
+                    <p th:text="#{profile.details.firstname}"></p>
+                    <p th:text="${profile.prenom}"></p>
                 </div>
                 <div class="flex justify-between mb-2">
-                    <span>Nom: </span>
-                    <span th:text="${profile.nom}"></span>
+                    <p th:text="#{profile.details.lastname}"></p>
+                    <p th:text="${profile.nom}"></p>
                 </div>
                 <div class="flex justify-between mb-2">
-                    <p>Email: </p>
+                    <p th:text="#{profile.details.email}"></p>
                     <p th:text="${profile.email}"></p>
                 </div>
 
                 <div class="flex justify-between mb-2">
-                    <p>Téléphone</p>
+                    <p th:text="#{profile.details.phone}">Téléphone</p>
                     <p th:text="${profile.telephone}"></p>
                 </div>
                 <button class="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
-                    <a th:href="@{/profile/edit}" th:if="${#authentication.name == profile.pseudo}">Modifier</a>
-                    <a href="/" th:if="${#authentication.name != profile.pseudo}">Retour</a>
+                    <a th:href="@{/profile/edit}" th:if="${#authentication.name == profile.pseudo}"
+                       th:text="#{profile.details.action.edit}"></a>
+                    <a href="/" th:if="${#authentication.name != profile.pseudo}"
+                       th:text="#{profile.details.action.back}">Retour</a>
                 </button>
             </div>
         </div>

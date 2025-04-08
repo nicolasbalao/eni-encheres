@@ -21,7 +21,8 @@
                 <!-- Pseudo -->
                 <div class="flex gap-8">
                     <div class="mb-4">
-                        <label for="pseudo" class="block text-sm font-medium text-gray-600">Pseudo</label>
+                        <label for="pseudo" class="block text-sm font-medium text-gray-600"
+                               th:text="#{profile.details.edit.pseudo}"></label>
                         <input type="text" id="pseudo" data-th-field="*{pseudo}"
                                class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-400 disabled:border-gray-400"
                                disabled
@@ -33,7 +34,8 @@
 
                     <!-- Last Name -->
                     <div class="mb-4">
-                        <label for="lastname" class="block text-sm font-medium text-gray-600">Nom (*)</label>
+                        <label for="lastname" class="block text-sm font-medium text-gray-600"
+                               th:text="#{register.form.label.lastname}"></label>
                         <input type="text" id="lastname" data-th-field="*{nom}" required
                                class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
                     </div>
@@ -44,14 +46,16 @@
 
                     <!-- First Name -->
                     <div class="mb-4">
-                        <label for="firstname" class="block text-sm font-medium text-gray-600">Prénom (*)</label>
+                        <label for="firstname" class="block text-sm font-medium text-gray-600"
+                               th:text="#{register.form.label.firstname}"></label>
                         <input type="text" id="firstname" data-th-field="*{prenom}" required
                                class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
                     </div>
 
                     <!-- Email -->
                     <div class="mb-4">
-                        <label for="email" class="block text-sm font-medium text-gray-600">Email (*)</label>
+                        <label for="email" class="block text-sm font-medium text-gray-600"
+                               th:text="#{register.form.label.email}"></label>
                         <input type="email" id="email" data-th-field="*{email}" required
                                class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
                         <div data-th-replace="~{fragments/errors/frag-error :: frag-error('email')}"
@@ -61,7 +65,8 @@
 
                 <!-- Phone -->
                 <div class="mb-4">
-                    <label for="phone" class="block text-sm font-medium text-gray-600">Téléphone:</label>
+                    <label for="phone" class="block text-sm font-medium text-gray-600"
+                           th:text="#{profile.details.phone}"></label>
                     <input type="text" id="phone" data-th-field="*{telephone}"
                            class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
                 </div>
@@ -69,7 +74,8 @@
                 <!-- Address -->
                 <div class="mb-4 ">
                     <input type="hidden" data-th-field="*{adresse.id}">
-                    <label for="street" class="block text-sm font-medium text-gray-600">Adresse (*):</label>
+                    <label for="street" class="block text-sm font-medium text-gray-600"
+                           th:text="#{register.form.label.adresse}"></label>
                     <input type="text" id="street" data-th-field="*{adresse.rue}" required
                            class="w-full px-4 py-2 mt-1 border rounded-lg mb-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
                     <div class="flex items-center gap-8">
@@ -83,24 +89,26 @@
                 </div>
 
                 <div class="flex gap-8 items-center mb-8">
-                    <p class="block text-sm font-medium text-gray-600">Mon crédit: </p>
+                    <p class="block text-sm font-medium text-gray-600" th:text="#{profile.details.edit.credit}">
+                        crédit: </p>
                     <p th:text="*{credit}"></p>
                 </div>
 
                 <!-- Submit and Cancel Buttons -->
                 <div class="flex justify-between items-center w-full">
                     <button type="submit"
-                            class="w-full bg-blue-500 text-white py-2 rounded-lg cursor-pointer hover:bg-blue-600 transition">
-                        Modifier
+                            class="w-full bg-blue-500 text-white py-2 rounded-lg cursor-pointer hover:bg-blue-600 transition"
+                            th:text="#{profile.details.action.edit}">
+
                     </button>
                     <button type="button"
                             class="w-full bg-blue-500 text-white py-2 rounded-lg cursor-pointer hover:bg-blue-600 transition">
-                        <a th:href="@{/profile/edit/password}">
-                            Modifier mot de passe
+                        <a th:href="@{/profile/edit/password}" th:text="#{profile.details.edit.changePassword}">
                         </a>
                     </button>
                     <button type="button" class="ml-4 w-full">
-                        <a href="/profile" class="text-gray-600 hover:text-blue-500">Annuler</a>
+                        <a href="/profile" class="text-gray-600 hover:text-blue-500"
+                           th:text="#{register.form.action.cancel}"></a>
                     </button>
                 </div>
             </form>

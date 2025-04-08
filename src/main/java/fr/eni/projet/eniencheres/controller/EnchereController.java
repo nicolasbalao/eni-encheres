@@ -27,7 +27,7 @@ public class EnchereController {
         this.encheresService = encheresService;
     }
 
-    @GetMapping("/enchere/{id}")
+    @GetMapping("/encheres/{id}")
     public String EnchereDetails(Model model, @PathVariable("id") Long id, Authentication auth, Locale locale) {
         Enchere enchere = encheresService.consulterEnchere(id);
         if (enchere == null) {
@@ -51,9 +51,8 @@ public class EnchereController {
             Toast toastSucess = ToastController.showToast(Toast.statut.SUCCESS, messageSource.getMessage("enchereDetails.response.delivery.ok", null, locale));
             redirectAttributes.addFlashAttribute("toast", toastSucess);
 
-            return "redirect:/enchere/"+id;
-        }
-        catch (Exception e) {
+            return "redirect:/encheres/" + id;
+        } catch (Exception e) {
             Toast toastError = ToastController.showToast(Toast.statut.DANGER, messageSource.getMessage(e.getMessage(), null, locale));
             redirectAttributes.addFlashAttribute("toast", toastError);
             return "redirect:/encheres/" + id;
@@ -73,9 +72,8 @@ public class EnchereController {
             Toast toastSucess = ToastController.showToast(Toast.statut.SUCCESS, messageSource.getMessage("enchereDetails.response.buy.ok", null, locale));
             redirectAttributes.addFlashAttribute("toast", toastSucess);
 
-            return "redirect:/enchere/"+idArticle;
-        }
-        catch (Exception e) {
+            return "redirect:/encheres/" + idArticle;
+        } catch (Exception e) {
             Toast toastError = ToastController.showToast(Toast.statut.DANGER, messageSource.getMessage(e.getMessage(), null, locale));
 
             redirectAttributes.addFlashAttribute("toast", toastError);
@@ -90,11 +88,11 @@ public class EnchereController {
         Number statut_enchere = enchere.getArticleAVendre().getStatut().getCode();
 
         if (statut_enchere.equals(2) && enchere.getAcquereur().getPseudo().equals(userPseudo)) {
-            titre_enchere_details =  messageSource.getMessage("enchereDetails.label.you.win", null, locale);
+            titre_enchere_details = messageSource.getMessage("enchereDetails.label.you.win", null, locale);
         } else if (statut_enchere.equals(2) && !enchere.getAcquereur().getPseudo().equals(userPseudo)) {
-            titre_enchere_details = "<a class='text-blue-500 underline' href='/users/" +enchere.getAcquereur().getPseudo() + "/profile'> " + enchere.getAcquereur().getPseudo() + "</a> " + messageSource.getMessage("enchereDetails.label.other.win", null, locale);
+            titre_enchere_details = "<a class='text-blue-500 underline' href='/users/" + enchere.getAcquereur().getPseudo() + "/profile'> " + enchere.getAcquereur().getPseudo() + "</a> " + messageSource.getMessage("enchereDetails.label.other.win", null, locale);
         } else if (statut_enchere.equals(3) && !enchere.getAcquereur().getPseudo().equals(userPseudo)) {
-            titre_enchere_details = "<a class='text-blue-500 underline' href='/users/" +enchere.getAcquereur().getPseudo() + "/profile'> " + enchere.getAcquereur().getPseudo() + "</a> " + messageSource.getMessage("enchereDetails.label.other.win.and.close", null, locale);
+            titre_enchere_details = "<a class='text-blue-500 underline' href='/users/" + enchere.getAcquereur().getPseudo() + "/profile'> " + enchere.getAcquereur().getPseudo() + "</a> " + messageSource.getMessage("enchereDetails.label.other.win.and.close", null, locale);
         } else {
             titre_enchere_details = messageSource.getMessage("enchereDetails.label.default", null, locale);
         }

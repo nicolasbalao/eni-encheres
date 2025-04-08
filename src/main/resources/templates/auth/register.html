@@ -1,5 +1,5 @@
 <html lang="en"
-      data-th-replace="~{layouts/layout :: layout(titrePage=#{register.title}, contenuPage=~{:: main}, ressourcesSupp=~{:: #ressources})}">
+      data-th-replace="~{layouts/layout :: layout(titrePage=#{register.title}, contenuPage=~{:: main}, ressourcesSupp=~{:: #ressources}, toast=~{null})}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,8 +8,7 @@
         <script data-th-src="@{/js/register.js}"></script>
     </th:block>
 </head>
-<main class="bg-gray-100">
-
+<main>
     <div class="flex items-center justify-center min-h-screen">
         <div class="w-full max-w-lg bg-white rounded-lg shadow-lg p-8">
             <h1 class="text-2xl font-semibold text-center text-gray-700 mb-6">Nouveau Profile</h1>
@@ -22,7 +21,8 @@
                 <!-- Pseudo -->
                 <div class="flex gap-8">
                     <div class="mb-4">
-                        <label for="pseudo" class="block text-sm font-medium text-gray-600">Pseudo (*)</label>
+                        <label for="pseudo" class="block text-sm font-medium text-gray-600"
+                               th:text="#{register.form.label.pseudo}"></label>
                         <input type="text" id="pseudo" data-th-field="*{pseudo}" required
                                class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
                         <div data-th-replace="~{fragments/errors/frag-error :: frag-error('pseudo')}"
@@ -31,7 +31,8 @@
 
                     <!-- Last Name -->
                     <div class="mb-4">
-                        <label for="lastname" class="block text-sm font-medium text-gray-600">Nom (*)</label>
+                        <label for="lastname" class="block text-sm font-medium text-gray-600"
+                               th:text="#{register.form.label.lastname}"></label>
                         <input type="text" id="lastname" data-th-field="*{nom}" required
                                class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
                     </div>
@@ -42,14 +43,16 @@
 
                     <!-- First Name -->
                     <div class="mb-4">
-                        <label for="firstname" class="block text-sm font-medium text-gray-600">Prénom (*)</label>
+                        <label for="firstname" class="block text-sm font-medium text-gray-600"
+                               th:text="#{register.form.label.firstname}"></label>
                         <input type="text" id="firstname" data-th-field="*{prenom}" required
                                class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
                     </div>
 
                     <!-- Email -->
                     <div class="mb-4">
-                        <label for="email" class="block text-sm font-medium text-gray-600">Email (*)</label>
+                        <label for="email" class="block text-sm font-medium text-gray-600"
+                               th:text="#{register.form.label.email}"></label>
                         <input type="email" id="email" data-th-field="*{email}" required
                                class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
                         <div data-th-replace="~{fragments/errors/frag-error :: frag-error('email')}"
@@ -59,14 +62,16 @@
 
                 <!-- Phone -->
                 <div class="mb-4">
-                    <label for="phone" class="block text-sm font-medium text-gray-600">Téléphone:</label>
+                    <label for="phone" class="block text-sm font-medium text-gray-600"
+                           th:text="#{register.form.label.phone}"></label>
                     <input type="text" id="phone" data-th-field="*{telephone}"
                            class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
                 </div>
 
                 <!-- Address -->
                 <div class="mb-4 ">
-                    <label for="street" class="block text-sm font-medium text-gray-600">Adresse (*):</label>
+                    <label for="street" class="block text-sm font-medium text-gray-600"
+                           th:text="#{register.form.label.adresse}"></label>
                     <input type="text" id="street" data-th-field="*{adresse.rue}" required
                            class="w-full px-4 py-2 mt-1 border rounded-lg mb-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
                     <div class="flex items-center gap-8">
@@ -82,7 +87,8 @@
                 <!-- Password -->
                 <div class="flex items-center gap-8">
                     <div class="mb-4">
-                        <label for="password" class="block text-sm font-medium text-gray-600">Mot de passe (*):</label>
+                        <label for="password" class="block text-sm font-medium text-gray-600"
+                               th:text="#{register.form.label.password}"></label>
                         <input type="password" id="password" data-th-field="*{motDePasse}"
                                class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                                required/>
@@ -90,9 +96,9 @@
 
                     <!-- Password Confirmation -->
                     <div class="mb-6">
-                        <label for="password_conf" class="block text-sm font-medium text-gray-600">Confirmer mot de
-                            passe
-                            (*):</label>
+                        <label for="password_conf" class="block text-sm font-medium text-gray-600"
+                               th:text="#{register.form.label.passwordConfirmation}">
+                        </label>
                         <input type="password" id="password_conf" name="password_conf"
                                class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
                     </div>
@@ -101,11 +107,13 @@
                 <!-- Submit and Cancel Buttons -->
                 <div class="flex justify-between items-center w-full">
                     <button type="submit"
-                            class="w-full bg-blue-500 text-white py-2 rounded-lg cursor-pointer hover:bg-blue-600 transition">
-                        Créer
+                            class="w-full bg-blue-500 text-white py-2 rounded-lg cursor-pointer hover:bg-blue-600 transition"
+                            th:text="#{register.form.action.create}">
+
                     </button>
                     <button type="button" class="ml-4 w-full">
-                        <a href="/" class="text-gray-600 hover:text-blue-500">Annuler</a>
+                        <a href="/" class="text-gray-600 hover:text-blue-500"
+                           th:text="#{register.form.action.cancel}"></a>
                     </button>
                 </div>
             </form>
