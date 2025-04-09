@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -105,7 +106,7 @@ public class ArticleAVendreController {
     }
 
     @PostMapping("{id}/sale/edit")
-    public String editSaleArticle(@PathVariable("id") Long id, Authentication authentication, @Valid @ModelAttribute("articleAvendre") ArticleAVendre articleAVendre, BindingResult bindingResult, Model model) {
+    public String editSaleArticle(@PathVariable("id") Long id, Authentication authentication, @Valid @ModelAttribute("articleAvendre") ArticleAVendre articleAVendre, BindingResult bindingResult, Model model, Locale locale, RedirectAttributes redirectAttributes) {
         // TODO: Handle 404 articleAVendre not found
         // TODO: try to delete ducplicated code
 
@@ -132,11 +133,13 @@ public class ArticleAVendreController {
             return "article/sell";
         }
 
+        Toast toastNotification = ToastController.showToast(Toast.statut.SUCCESS, "La mise à jour a été effectuée avec succès");
+        redirectAttributes.addFlashAttribute("toast", toastNotification);
         return "redirect:/";
     }
 
     @PostMapping("{id}/sale/cancel")
-    public String cancelSaleArticle(@PathVariable("id") Long id, Authentication authentication) {
+    public String cancelSaleArticle(@PathVariable("id") Long id, Authentication authentication, RedirectAttributes redirectAttributes) {
         // TODO: Handle 404 articleAVendre not found
         // TODO: try to delete ducplicated code
         ArticleAVendre articleAVendre = articleAVendreService.getArticleAVendre(id);
@@ -154,6 +157,9 @@ public class ArticleAVendreController {
         }
 
         articleAVendreService.cancel(articleAVendre);
+
+        Toast toastNotification = ToastController.showToast(Toast.statut.SUCCESS, "La vente a été annulée avec succès");
+        redirectAttributes.addFlashAttribute("toast", toastNotification);
 
         return "redirect:/";
 
