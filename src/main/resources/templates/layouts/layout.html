@@ -8,13 +8,14 @@
     <title th:text="${titrePage}">Default title</title>
     <link href="/css/css.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/flowbite@latest/dist/flowbite.min.js"></script>
     <th:block th:if="${ressourcesSupp != null} " data-th-replace="${ressourcesSupp}"/>
 
 </head>
 
 <body>
 <header data-th-replace="~{fragments/frag-header :: frag-header}"></header>
-<div class="w-full relative flex flex-row justify-center items-center mb-4">
+<div class="w-full relative flex flex-col gap-4 sm:gap-0 sm:flex-row justify-center items-center mb-4">
     <h1 class="text-center text-2xl font-semibold flex-grow-1" th:utext="${titrePage}"></h1>
     <div class="w-fit border rounded-md border-black p-4  mr-4 right-0">
         <div class="flex gap-4">
