@@ -1,6 +1,7 @@
 package fr.eni.projet.eniencheres.controller;
 
 import fr.eni.projet.eniencheres.bll.utilisateur.UtilisateurService;
+import fr.eni.projet.eniencheres.bo.Toast;
 import fr.eni.projet.eniencheres.bo.Utilisateur;
 import fr.eni.projet.eniencheres.dto.UpdatePasswordRequestDto;
 import fr.eni.projet.eniencheres.exception.BusinessException;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 // TODO: See if we split this controller into 2 -> 1 for my profile & 1 for users profile
 @Controller
@@ -72,7 +74,7 @@ public class UtilisateurController {
     }
 
     @PostMapping("/profile/edit")
-    public String editMyProfile(@Valid @ModelAttribute("profile") Utilisateur user, BindingResult bindingResult, Model model) {
+    public String editMyProfile(@Valid @ModelAttribute("profile") Utilisateur user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("profile", user);
@@ -87,6 +89,8 @@ public class UtilisateurController {
             return "user/edit-profile";
 
         }
+        Toast toastNotification = ToastController.showToast(Toast.statut.SUCCESS, "La mise à jour a été effectuée avec succès");
+        redirectAttributes.addFlashAttribute("toast", toastNotification);
 
         return "redirect:/profile";
     }
