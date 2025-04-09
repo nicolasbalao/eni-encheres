@@ -3,5 +3,5 @@
         data-th-fragment="frag-error(inputName)" class="text-red-500"
         data-th-if="${#fields.hasErrors(inputName)}">
     <li data-th-each="err: ${#fields.errors(inputName)}"
-        data-th-text="${err}"></li>
+        data-th-text="#{${err}}"></li>
 </ul>
