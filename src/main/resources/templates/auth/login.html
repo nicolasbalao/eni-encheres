@@ -1,43 +1,42 @@
-<!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Login</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="flex items-center justify-center min-h-screen bg-gray-100">
-<div class="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
-    <h2 class="text-2xl font-semibold text-center text-gray-700" th:text="#{login.title}"/>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      data-th-replace="~{layouts/layout :: layout(titrePage=~{''}, contenuPage=~{:: main}, ressourcesSupp=~{}, toast=~{null})}">
+<main>
+    <div class="flex justify-center">
+        <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
+            <h2 class="text-2xl font-semibold text-center text-gray-700" th:text="#{login.title}"/>
 
-    <form method="post" th:action="@{/login}" class="mt-6">
-        <div th:if="${param.error}" class="text-red-500 text-sm text-center mb-4"
-             th:text="#{login.form.error.credential}">
+            <form method="post" th:action="@{/login}">
+                <div th:if="${param.error}" class="text-red-500 text-sm text-center mb-4"
+                     th:text="#{login.form.error.credential}">
 
+                </div>
+                <div class="mb-4">
+                    <label for="username" class="block text-sm font-medium text-gray-600"
+                           th:text="#{login.form.label.username}"/>
+                    <input type="text" id="username" name="username" required
+                           class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+                </div>
+
+                <div class="mb-4">
+                    <label for="password" class="block text-sm font-medium text-gray-600"
+                           th:text="#{login.form.label.password}"/>
+                    <input type="password" id="password" name="password" required
+                           class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+                </div>
+
+                <button type="submit"
+                        class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
+                        th:text="#{login.form.action.connexion}">
+                </button>
+            </form>
+
+            <p class="mt-4 text-center text-gray-600 text-sm">
+                Pas encore de compte ?
+                <a href="/register" class="text-blue-500 hover:underline"
+                   th:text="#{login.form.action.createAccount}"/>
+            </p>
         </div>
-        <div class="mb-4">
-            <label for="username" class="block text-sm font-medium text-gray-600"
-                   th:text="#{login.form.label.username}"/>
-            <input type="text" id="username" name="username" required
-                   class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
-        </div>
+    </div>
+</main>
 
-        <div class="mb-4">
-            <label for="password" class="block text-sm font-medium text-gray-600"
-                   th:text="#{login.form.label.password}"/>
-            <input type="password" id="password" name="password" required
-                   class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
-        </div>
-
-        <button type="submit"
-                class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
-                th:text="#{login.form.action.connexion}">
-        </button>
-    </form>
-
-    <p class="mt-4 text-center text-gray-600 text-sm">
-        Pas encore de compte ?
-        <a href="/register" class="text-blue-500 hover:underline"
-           th:text="#{login.form.action.createAccount}"/>
-    </p>
-</div>
-</body>
 </html>

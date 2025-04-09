@@ -18,11 +18,11 @@ public class ArticleAVendre {
     @Size(min = 2, max = 300)
     private String description;
 
-    @FutureOrPresent(message = "La date de début des enchères doit être dans le futur ou aujourd'hui")
+    @FutureOrPresent(message = "sellArticle.form.error.startDate")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateDebutEncheres;
 
-    @Future(message = "La date de début des enchères doit être dans le futur ou aujourd'hui")
+    @Future(message = "sellArticle.form.error.endDate")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateFinEncheres;
 

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -96,25 +97,16 @@ public class ArticleAVendreController {
             return "redirect:/";
         }
 
-        String currentUser = authentication.getName();
-        String vendeur = article.getVendeur().getPseudo();
-
-        // Si l'utilisateur n'est pas le vendeur, rediriger vers la fiche publique
-        if (!Objects.equals(currentUser, vendeur)) {
+        if (!canEditArticle(article)) {
             return redirectToPublicSale(id);
         }
-
-        // Si l'enchère a déjà commencé, redirection vers vue non modifiable
-        if (hasSaleAlreadyStarted(article)) {
-            return redirectToPublicSale(id);
-        }
-
         model.addAttribute("articleAVendre", article);
         return "article/sell";
+
     }
 
     @PostMapping("{id}/sale/edit")
-    public String editSaleArticle(@PathVariable("id") Long id, Authentication authentication, @Valid @ModelAttribute("articleAvendre") ArticleAVendre articleAVendre, BindingResult bindingResult, Model model) {
+    public String editSaleArticle(@PathVariable("id") Long id, Authentication authentication, @Valid @ModelAttribute("articleAvendre") ArticleAVendre articleAVendre, BindingResult bindingResult, Model model, Locale locale, RedirectAttributes redirectAttributes) {
         // TODO: Handle 404 articleAVendre not found
         // TODO: try to delete ducplicated code
 
@@ -123,12 +115,8 @@ public class ArticleAVendreController {
             return "article/sell";
         }
 
-        if (articleAVendre.getStatut() == StatutEnchere.ANNULEE) {
-            return "redirect:/";
-        }
-
-        if (hasSaleAlreadyStarted(articleAVendre)) {
-            return "redirect:/";
+        if (!canEditArticle(articleAVendre)) {
+            return redirectToPublicSale(id);
         }
 
         try {
@@ -145,12 +133,13 @@ public class ArticleAVendreController {
             return "article/sell";
         }
 
+        Toast toastNotification = ToastController.showToast(Toast.statut.SUCCESS, "La mise à jour a été effectuée avec succès");
+        redirectAttributes.addFlashAttribute("toast", toastNotification);
         return "redirect:/";
-
     }
 
     @PostMapping("{id}/sale/cancel")
-    public String cancelSaleArticle(@PathVariable("id") Long id, Authentication authentication) {
+    public String cancelSaleArticle(@PathVariable("id") Long id, Authentication authentication, RedirectAttributes redirectAttributes) {
         // TODO: Handle 404 articleAVendre not found
         // TODO: try to delete ducplicated code
         ArticleAVendre articleAVendre = articleAVendreService.getArticleAVendre(id);
@@ -163,11 +152,14 @@ public class ArticleAVendreController {
             return "redirect:/";
         }
 
-        if (hasSaleAlreadyStarted(articleAVendre)) {
-            return "redirect:/";
+        if (!canEditArticle(articleAVendre)) {
+            return redirectToPublicSale(id);
         }
 
         articleAVendreService.cancel(articleAVendre);
+
+        Toast toastNotification = ToastController.showToast(Toast.statut.SUCCESS, "La vente a été annulée avec succès");
+        redirectAttributes.addFlashAttribute("toast", toastNotification);
 
         return "redirect:/";
 
@@ -177,9 +169,8 @@ public class ArticleAVendreController {
         return "redirect:/encheres/" + id;
     }
 
-    private boolean hasSaleAlreadyStarted(ArticleAVendre article) {
-        return !article.getDateDebutEncheres().isAfter(LocalDate.now())
-                && article.getStatut() == StatutEnchere.EN_COURS;
+    private boolean canEditArticle(ArticleAVendre article) {
+        return article.getDateDebutEncheres().isAfter(LocalDate.now()) && article.getStatut() == StatutEnchere.NON_COMMENCEE;
     }
 
 

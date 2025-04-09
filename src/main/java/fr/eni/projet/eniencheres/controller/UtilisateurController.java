@@ -4,8 +4,11 @@ import fr.eni.projet.eniencheres.bll.utilisateur.UtilisateurService;
 import fr.eni.projet.eniencheres.bo.Utilisateur;
 import fr.eni.projet.eniencheres.dto.UpdatePasswordRequestDto;
 import fr.eni.projet.eniencheres.exception.BusinessException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -97,7 +100,7 @@ public class UtilisateurController {
     }
 
     @PostMapping("/profile/edit/password")
-    public String editMyPassword(@Valid @ModelAttribute UpdatePasswordRequestDto updatePasswordDto, BindingResult bindingResult, Model model, Authentication auth) {
+    public String editMyPassword(@Valid @ModelAttribute UpdatePasswordRequestDto updatePasswordDto, BindingResult bindingResult, Model model, Authentication auth, HttpServletRequest request, HttpServletResponse response) {
 
         if (!auth.getName().equals(updatePasswordDto.getPseudo())) {
             return "redirect:/login";
@@ -114,7 +117,9 @@ public class UtilisateurController {
             bindingResult.addError(error);
             return "user/edit-password";
         }
-        return "redirect:/profile";
+
+        new SecurityContextLogoutHandler().logout(request, response, auth);
+        return "redirect:/login";
     }
 
 }
