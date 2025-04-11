@@ -87,7 +87,7 @@ public class EnchereController {
         String userPseudo = auth.getName();
         Number statut_enchere = enchere.getArticleAVendre().getStatut().getCode();
 
-        if (statut_enchere.equals(2) && enchere.getAcquereur().getPseudo().equals(userPseudo)) {
+        if ((statut_enchere.equals(2) || statut_enchere.equals(3)) && enchere.getAcquereur().getPseudo().equals(userPseudo)) {
             titre_enchere_details = messageSource.getMessage("enchereDetails.label.you.win", null, locale);
         } else if (statut_enchere.equals(2) && !enchere.getAcquereur().getPseudo().equals(userPseudo)) {
             titre_enchere_details = "<a class='text-blue-500 underline' href='/users/" + enchere.getAcquereur().getPseudo() + "/profile'> " + enchere.getAcquereur().getPseudo() + "</a> " + messageSource.getMessage("enchereDetails.label.other.win", null, locale);
